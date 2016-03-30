@@ -29,10 +29,32 @@
         <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="login()">Sign in</button>
       </form>
 
     </div> <!-- /container -->
 
+    <script>
+      function login() {
+        var email = $('#inputEmail').val();
+        var password = $('#inputPassword').val();
+        var data = {
+          email: email,
+          password: password,
+        };
+        $.ajax({
+          url: '/login',
+          type: 'post',
+          data: data,
+          success: function(data) {
+            console.log('success: ' + data);
+          },
+          error: function(xhr, status, error) {
+            console.log('error: ' + error);
+          },
+        });
+      }
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
   </body>
 </html>

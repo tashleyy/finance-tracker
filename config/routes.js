@@ -36,6 +36,8 @@ module.exports.routes = {
   //   view: 'homepage'
   // }
 
+  'POST /login': 'AuthController.login',
+
   /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *
