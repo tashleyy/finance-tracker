@@ -1,7 +1,7 @@
 /**
- * PostController
+ * TransactionController
  *
- * @description :: Server-side logic for managing posts
+ * @description :: Server-side logic for managing transactions
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 

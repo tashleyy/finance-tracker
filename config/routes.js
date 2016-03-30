@@ -41,7 +41,11 @@ module.exports.routes = {
   'POST /logout': 'AuthController.logout',
   
   'GET /dashboard': 'DashboardController.render',
-
+  
+  'POST /account': 'AccountController.create',
+  
+  'DELETE /account': 'AccountController.destroy',
+  
   /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *
