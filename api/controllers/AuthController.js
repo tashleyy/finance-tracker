@@ -18,11 +18,10 @@ module.exports = {
             }
             req.logIn(user, function(err) {
                 if (err) res.send(err);
-                var data = {
+                return res.send({
                     message: info.message,
                     user: user
-                };
-                return res.ok(data);
+                });
             });
 
         })(req, res);
