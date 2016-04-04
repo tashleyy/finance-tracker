@@ -19,3 +19,7 @@ Feature: Login Page
         When I fill #inputPassword selector with wrongpassword
         When I press the button Login
         Then I should be on the login page
+    Scenario: Logging out
+        Given I am on the dashboard page
+        When I press the button Sign Out
+        Then I should be on the login page

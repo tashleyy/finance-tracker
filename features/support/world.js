@@ -21,6 +21,14 @@ function World() {
   this.assertUrl = function (url) {
     this.browser.assert.url(url);
   }
+  
+  this.assertText = function (selector, text) {
+    this.browser.assert.text(selector, text);
+  }
+  
+  this.assertElementsAtLeast = function (selector, num) {
+    this.browser.assert.elements(selector, { atLeast: num });
+  }
 }
 
 module.exports = function() {

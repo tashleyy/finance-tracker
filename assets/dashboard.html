@@ -63,7 +63,7 @@
               </button>
 
               <!-- Modal -->
-              <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
+              <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" style="display: none;">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -95,7 +95,7 @@
               </button>
 
               <!-- Modal -->
-              <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel">
+              <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" style="display: none;">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -145,75 +145,46 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    <script>
-      $(document).ready(function() {
-        $.ajax({
-          url: '/account',
-          type: 'get',
-          success: function (data) {
-            $('#accountsList tbody').html('');
-            for (var i = 0; i < data.length; i++) {
-              $('#accountsList tbody').append('<tr><td>' + data[i].name + '</td><td><input type="checkbox"></td></tr>');
-            }
-          },
+    <script src="../js/dbquery.js"></script>
+    <script>      
+      $(document).ready(function () {
+        getAccounts(function (data) {
+          $('#accountsList tbody').html('');
+          for (var i = 0; i < data.length; i++) {
+            $('#accountsList tbody').append('<tr><td>' + data[i].name + '</td><td><input type="checkbox"></td></tr>');
+          }
         });
       });
       $('#deleteModal').on('show.bs.modal', function () {
-        $.ajax({
-          url: '/account',
-          type: 'get',
-          success: function (data) {
-            $('#deleteAccountSelect').html('');            
-            for (var i = 0; i < data.length; i++) {
-              $('#deleteAccountSelect').append('<option>' + data[i].name + '</option>');                          
-            }
-          },
+        getAccounts(function (data) {
+          $('#deleteAccountSelect').html('');            
+          for (var i = 0; i < data.length; i++) {
+            $('#deleteAccountSelect').append('<option>' + data[i].name + '</option>');                          
+          }
         });
       });
       $('#deleteAccountButton').click(function () {
         var accountName = $('#deleteAccountSelect').val();
-        $.ajax({
-          url: '/account',
-          type: 'delete',
-          data: {
-            name: accountName,
-          },
-          success: function (data) {
-            $('#deleteModal').modal('hide');
-            $('#accountsList tbody').html('');
-            for (var i = 0; i < data.length; i++) {
-              $('#accountsList tbody').append('<tr><td>' + data[i].name + '</td><td><input type="checkbox"></td></tr>');
-            }
-          },
-          error: function (xhr, status, err) {
-            alert('Failed to delete account.');
-          },
+        deleteAccount(accountName, function (data) {
+          $('#deleteModal').modal('hide');
+          $('#accountsList tbody').html('');
+          for (var i = 0; i < data.length; i++) {
+            $('#accountsList tbody').append('<tr><td>' + data[i].name + '</td><td><input type="checkbox"></td></tr>');
+          }
         });
       });
       $('#addAccountButton').click(function () {
         var accountName = $('#inputAccountName').val();
-        $.ajax({
-          url: '/account',
-          type: 'post',
-          data: {
-            name: accountName,
-          },
-          success: function (data) {
-            $('#addModal').modal('hide');
-            $('#accountsList tbody').html('');
-            for (var i = 0; i < data.length; i++) {
-              $('#accountsList tbody').append('<tr><td>' + data[i].name + '</td><td><input type="checkbox"></td></tr>');
-            }
-            $('#inputAccountName').val('');
-          },
-          error: function (xhr, status, err) {
-            alert('Failed to add account.');
-          },
+        addAccount(accountName, function (data) {
+          $('#addModal').modal('hide');
+          $('#accountsList tbody').html('');
+          for (var i = 0; i < data.length; i++) {
+            $('#accountsList tbody').append('<tr><td>' + data[i].name + '</td><td><input type="checkbox"></td></tr>');
+          }
+          $('#inputAccountName').val('');
         });
       });
-      $('#signOutButton').click(function () {
-        location = '/';
-      });
+      $('#signOutButton').click(logout);
     </script>
   </body>
 </html>
