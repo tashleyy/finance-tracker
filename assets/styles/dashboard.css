@@ -22,3 +22,12 @@ body {
 #signOutButton {
   margin-top: 20px;
 }
+
+table {
+  background-color: white;
+}
+
+.btn {
+  background-color: white;
+  border-color: black;
+}
