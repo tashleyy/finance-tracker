@@ -149,9 +149,8 @@
     <script>
       var userId;
       $(document).ready(function () {
-        userId = localStorage.getItem('_userId');
+        userId = sessionStorage.getItem('_userId');
         if (!userId) location = '/';
-        localStorage.removeItem('_userId');
         userId = atob(userId);
         getAccounts(userId, function (data) {
           $('#accountsList tbody').html('');
@@ -189,7 +188,10 @@
           $('#inputAccountName').val('');
         });
       });
-      $('#signOutButton').click(logout);
+      $('#signOutButton').click(function () {
+        sessionStorage.removeItem('_userId');
+        logout();
+      });
     </script>
   </body>
 </html>

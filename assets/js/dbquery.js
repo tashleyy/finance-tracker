@@ -34,7 +34,7 @@ function addAccount(ownerId, accountName, cb) {
     error: function (xhr, status, err) {
       alert('Failed to add account.');
     },
-  });        
+  });
 }
 function logout() {
   $.ajax({
@@ -42,5 +42,5 @@ function logout() {
     type: 'post',
   }).always(function (data) {
     location = '/';
-  });        
+  });
 }
