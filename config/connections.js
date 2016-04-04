@@ -65,6 +65,15 @@ module.exports.connections = {
     // password: 'password',
     // database: 'your_mongo_db_name_here'
   },
+  
+  remoteServer: {
+    adapter: 'sails-mongo',
+    host: 'ds015780.mlab.com',
+    port: 15780,
+    database: 'heroku_2m8kshc0',
+    user: 'tashleyy',
+    password: 'campaiyn',    
+  },
 
   /***************************************************************************
   *                                                                          *
