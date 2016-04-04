@@ -47,6 +47,11 @@
           type: 'post',
           data: data,
         }).always(function (data) {
+          if (data && data.user && data.user.id)
+          {
+            var userId = btoa(data.user.id);
+            localStorage.setItem('_userId', userId);            
+          }
           location = '/dashboard/';
         });
         return false;

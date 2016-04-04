@@ -1,16 +1,20 @@
-function getAccounts(cb) {
+function getAccounts(ownerId, cb) {
   $.ajax({
-    url: '/account',
+    url: '/me/account',
     type: 'get',
+    data: {
+      ownerId: ownerId,
+    },
     success: cb
   });
 }
-function deleteAccount(accountName, cb) {
+function deleteAccount(ownerId, accountName, cb) {
   $.ajax({
     url: '/account',
     type: 'delete',
     data: {
       name: accountName,
+      ownerId: ownerId,
     },
     success: cb,
     error: function (xhr, status, err) {
@@ -18,12 +22,13 @@ function deleteAccount(accountName, cb) {
     },
   });
 }
-function addAccount(accountName, cb) {
+function addAccount(ownerId, accountName, cb) {
   $.ajax({
     url: '/account',
     type: 'post',
     data: {
       name: accountName,
+      ownerId: ownerId,
     },
     success: cb,
     error: function (xhr, status, err) {

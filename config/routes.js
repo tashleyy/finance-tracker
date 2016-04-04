@@ -46,6 +46,8 @@ module.exports.routes = {
   
   'DELETE /account': 'AccountController.destroy',
   
+  'GET /me/account': 'AccountController.findMine',
+  
   /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *
