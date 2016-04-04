@@ -13,6 +13,10 @@ module.exports = {
       unique: true,
       required: true,
     },
+    ownerId: {
+      type: 'string',
+      required: true,
+    },
   }
 };
 

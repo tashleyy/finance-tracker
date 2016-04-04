@@ -146,9 +146,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="../js/dbquery.js"></script>
-    <script>      
+    <script>
+      var userId;
       $(document).ready(function () {
-        getAccounts(function (data) {
+        userId = localStorage.getItem('_userId');
+        if (!userId) location = '/';
+        userId = atob(userId);
+        getAccounts(userId, function (data) {
           $('#accountsList tbody').html('');
           for (var i = 0; i < data.length; i++) {
             $('#accountsList tbody').append('<tr><td>' + data[i].name + '</td><td><input type="checkbox"></td></tr>');
@@ -156,7 +160,7 @@
         });
       });
       $('#deleteModal').on('show.bs.modal', function () {
-        getAccounts(function (data) {
+        getAccounts(userId, function (data) {
           $('#deleteAccountSelect').html('');            
           for (var i = 0; i < data.length; i++) {
             $('#deleteAccountSelect').append('<option>' + data[i].name + '</option>');                          
@@ -165,7 +169,7 @@
       });
       $('#deleteAccountButton').click(function () {
         var accountName = $('#deleteAccountSelect').val();
-        deleteAccount(accountName, function (data) {
+        deleteAccount(userId, accountName, function (data) {
           $('#deleteModal').modal('hide');
           $('#accountsList tbody').html('');
           for (var i = 0; i < data.length; i++) {
@@ -175,7 +179,7 @@
       });
       $('#addAccountButton').click(function () {
         var accountName = $('#inputAccountName').val();
-        addAccount(accountName, function (data) {
+        addAccount(userId, accountName, function (data) {
           $('#addModal').modal('hide');
           $('#accountsList tbody').html('');
           for (var i = 0; i < data.length; i++) {
