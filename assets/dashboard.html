@@ -20,83 +20,123 @@
 
   <body>
     <div class="container-fluid">
-      <h1 style="text-align: center;">Finance Tracker</h1>
       <div class="row">
         <div class="col-md-3">
-          <!-- Button trigger modal -->
-          <button type="button" id="addModalButton" class="btn btn-primary btn-md" data-toggle="modal" data-target="#addModal">
-            Add Account
-          </button>
-
-          <!-- Modal -->
-          <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title" id="addModalLabel">Add account</h4>
-                </div>
-                <div class="modal-body">
-                  <form>
-                    <div class="form-group">
-                      <label for="inputAccountName">Account name</label>
-                      <input type="name" class="form-control" id="inputAccountName" placeholder="Account name">
-                    </div>
-                    <div class="form-group">
-                      <label for="exampleInputFile">File input</label>
-                      <input type="file" id="exampleInputFile">
-                    </div>
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <button type="button" id="addAccountButton" class="btn btn-primary">Submit</button>
-                </div>
-              </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-          </div><!-- /.modal -->
-          <!-- Button trigger modal -->
-          <button type="button" id="deleteModalButton" class="btn btn-primary btn-md" data-toggle="modal" data-target="#deleteModal">
-            Delete Account
-          </button>
-
-          <!-- Modal -->
-          <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title" id="deleteModalLabel">Delete account</h4>
-                </div>
-                <div class="modal-body">
-                  <form>
-                    <select id="deleteAccountSelect" class="form-control">
-                    </select>
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <button type="button" id="deleteAccountButton" class="btn btn-primary">Delete</button>
-                </div>
-              </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-          </div><!-- /.modal -->
-        </div><!-- /.col-md-3 -->
-      </div><!-- /.row -->
-      
-      <div class="row">
-        <div class="col-md-3">
-          <table id="accountsList" data-click-to-select="true" class="table table-hover table-bordered">
-            <thead>
-              <tr>
-                <th data-field="name">Account Name</th>
-                <th data-checkbox="true">Visibility</th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
+          <h1 style="color: white">Finance Tracker</h1>
         </div>
+        <div class="col-md-1 col-md-offset-8">
+          <button type="button" id="signOutButton" class="btn btn-primary btn-md">Sign Out</button>
+        </div>
+      </div>
+      <div class="row">
+        <!-- Left -->
+        <div class="col-md-3">
+          <!-- Transactions -->
+          <div class="widget">
+            <div class="row">
+              <h3>Transactions</h3>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Middle -->
+        <div class="col-md-6">
+          <!-- Graphs -->
+          <div class="widget">
+            <div class="row">
+              <h3>Graphs</h3>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Right -->
+        <div class="col-md-3">
+          <!-- Accounts -->
+          <div class="widget">
+            <div class="row">
+              <h3>Accounts</h3>
+            </div>
+            <div class="row">
+              <!-- Button trigger modal -->
+              <button type="button" id="addModalButton" class="btn btn-primary btn-md" data-toggle="modal" data-target="#addModal">
+                Add Account
+              </button>
+
+              <!-- Modal -->
+              <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="addModalLabel">Add account</h4>
+                    </div>
+                    <div class="modal-body">
+                      <form>
+                        <div class="form-group">
+                          <label for="inputAccountName">Account name</label>
+                          <input type="name" class="form-control" id="inputAccountName" placeholder="Account name">
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputFile">File input</label>
+                          <input type="file" id="exampleInputFile">
+                        </div>
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      <button type="button" id="addAccountButton" class="btn btn-primary">Submit</button>
+                    </div>
+                  </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+              </div><!-- /.modal -->
+              <!-- Button trigger modal -->
+              <button type="button" id="deleteModalButton" class="btn btn-primary btn-md" data-toggle="modal" data-target="#deleteModal">
+                Delete Account
+              </button>
+
+              <!-- Modal -->
+              <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="deleteModalLabel">Delete account</h4>
+                    </div>
+                    <div class="modal-body">
+                      <form>
+                        <select id="deleteAccountSelect" class="form-control">
+                        </select>
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      <button type="button" id="deleteAccountButton" class="btn btn-primary">Delete</button>
+                    </div>
+                  </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+              </div><!-- /.modal -->
+            </div><!-- /.row -->
+            <div class="row">
+              <table id="accountsList" data-click-to-select="true" class="table table-hover table-bordered" style="width: 90%">
+                <thead>
+                  <tr>
+                    <th data-field="name">Account Name</th>
+                    <th data-checkbox="true">Visibility</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div><!-- /.row -->
+          </div><!-- /.widget -->
+          
+          <!-- Monthly Budgets -->
+          <div class="widget">
+            <div class="row">
+              <h3>Monthly Budgets</h3>
+            </div>
+          </div>
+        </div><!-- /.col-md-3 -->
       </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 
