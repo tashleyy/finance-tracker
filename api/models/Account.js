@@ -10,13 +10,16 @@ module.exports = {
   attributes: {
     name: {
       type: 'string',
-      unique: true,
       required: true,
     },
     ownerId: {
       type: 'string',
       required: true,
     },
+    balance: {
+      type: 'float',
+      required: true,
+    }
   }
 };
 
