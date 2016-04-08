@@ -8,6 +8,9 @@
 module.exports = {
   create: function(req, res) {
     var params = req.params.all();
+    if (!params.ownerId || !params.name || !params.balance) {
+      return res.badRequest();
+    }
     Account.findOne({ ownerId: params.ownerId, name: params.name }).exec(function accountFound(err, account) {
       if(err) {
         return res.serverError();
@@ -15,7 +18,7 @@ module.exports = {
       if (account) {
         return res.badRequest();
       }
-      Account.create({ ownerId: params.ownerId, name: params.name } , function accountCreated(err, account) {
+      Account.create({ ownerId: params.ownerId, name: params.name, balance: params.balance } , function accountCreated(err, account) {
         if (err) {
           return res.serverError();
         }
@@ -28,6 +31,7 @@ module.exports = {
       });
     });
   },
+  
   destroy: function(req, res) {
     var params = req.params.all();
     Account.destroy({ ownerId: params.ownerId, name: params.name }).exec(function (err) {
@@ -40,15 +44,6 @@ module.exports = {
         }
         return res.ok(accounts);
       });
-    });
-  },
-  findMine: function(req, res) {
-    var params = req.params.all();
-    Account.find({ ownerId: params.ownerId }).exec(function accountsFound(err, accounts) {
-      if (err) {
-        return res.serverError();
-      }
-      return res.ok(accounts);
     });
   },
 };

@@ -1,6 +1,6 @@
 function getAccounts(ownerId, cb) {
   $.ajax({
-    url: '/me/account',
+    url: '/account',
     type: 'get',
     data: {
       ownerId: ownerId,
@@ -29,6 +29,7 @@ function addAccount(ownerId, accountName, cb) {
     data: {
       name: accountName,
       ownerId: ownerId,
+      balance: '500.00', // default for now
     },
     success: cb,
     error: function (xhr, status, err) {
