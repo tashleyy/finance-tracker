@@ -33,6 +33,9 @@ module.exports.policies = {
   'AccountController': {
     '*': 'isAuthenticated',
   },
+  'TransactionController': {
+    '*': 'isAuthenticated',
+  },
 
   /***************************************************************************
   *                                                                          *

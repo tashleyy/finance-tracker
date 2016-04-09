@@ -5,7 +5,10 @@ function getAccounts(ownerId, cb) {
     data: {
       ownerId: ownerId,
     },
-    success: cb
+    success: cb,
+    error: function (xhr, status, err) {
+      alert('Failed to get accounts.');
+    },
   });
 }
 function deleteAccount(ownerId, accountName, cb) {
@@ -43,5 +46,18 @@ function logout() {
     type: 'post',
   }).always(function (data) {
     location = '/';
+  });
+}
+function getTransactions(ownerId, cb) {
+  $.ajax({
+    url: '/transaction',
+    type: 'get',
+    data: {
+      ownerId: ownerId,
+    },
+    success: cb,
+    error: function (xhr, status, err) {
+      alert('Failed to get transactions.');
+    },
   });
 }
