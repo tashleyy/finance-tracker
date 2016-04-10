@@ -190,7 +190,9 @@
       });
       $('#signOutButton').click(function () {
         sessionStorage.removeItem('_userId');
-        logout();
+        logout(function(data) {
+          location = '/';
+        });
       });
     </script>
   </body>

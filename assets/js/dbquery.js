@@ -1,3 +1,18 @@
+function handleError(xhr, status, err) {
+  console.log(err);
+}
+
+function login(email, password, cb) {
+  $.ajax({
+    url: '/login',
+    type: 'post',
+    data: {
+      email: email,
+      password: password
+    },
+  }).always(cb);
+}
+
 function getAccounts(ownerId, cb) {
   $.ajax({
     url: '/account',
@@ -6,11 +21,10 @@ function getAccounts(ownerId, cb) {
       ownerId: ownerId,
     },
     success: cb,
-    error: function (xhr, status, err) {
-      alert('Failed to get accounts.');
-    },
+    error: handleError,
   });
 }
+
 function deleteAccount(ownerId, accountName, cb) {
   $.ajax({
     url: '/account',
@@ -20,11 +34,10 @@ function deleteAccount(ownerId, accountName, cb) {
       ownerId: ownerId,
     },
     success: cb,
-    error: function (xhr, status, err) {
-      alert('Failed to delete account.');
-    },
+    error: handleError,
   });
 }
+
 function addAccount(ownerId, accountName, cb) {
   $.ajax({
     url: '/account',
@@ -35,19 +48,17 @@ function addAccount(ownerId, accountName, cb) {
       balance: '500.00', // default for now
     },
     success: cb,
-    error: function (xhr, status, err) {
-      alert('Failed to add account.');
-    },
+    error: handleError,
   });
 }
-function logout() {
+
+function logout(cb) {
   $.ajax({
     url: '/logout',
     type: 'post',
-  }).always(function (data) {
-    location = '/';
-  });
+  }).always(cb);
 }
+
 function getTransactions(ownerId, cb) {
   $.ajax({
     url: '/transaction',
@@ -56,8 +67,6 @@ function getTransactions(ownerId, cb) {
       ownerId: ownerId,
     },
     success: cb,
-    error: function (xhr, status, err) {
-      alert('Failed to get transactions.');
-    },
+    error: handleError,
   });
 }
