@@ -29,34 +29,26 @@
         <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-        <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="return login()">Login</button>
+        <button id="loginButton" class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
       </form>
 
     </div> <!-- /container -->
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script src="js/dbquery.js"></script>
     <script>
-      function login() {
+      $('#loginButton').click(function() {
         var email = $('#inputEmail').val();
         var password = $('#inputPassword').val();
-        var data = {
-          email: email,
-          password: password,
-        };
-        $.ajax({
-          url: '/login',
-          type: 'post',
-          data: data,
-        }).always(function (data) {
-          if (data && data.user && data.user.id)
-          {
+        login(email, password, function (data) {
+          if (data && data.user && data.user.id) {
             var userId = btoa(data.user.id);
             sessionStorage.setItem('_userId', userId);            
           }
           location = '/dashboard/';
         });
         return false;
-      }
+      });
     </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
   </body>
 </html>

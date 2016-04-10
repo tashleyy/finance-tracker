@@ -21,7 +21,15 @@
     "grunt-sails-linker": "~0.10.1",
     "grunt-sync": "0.2.4",
     "include-all": "~0.1.6",
-    "mocha": "^2.4.5",
+    "istanbul": "^0.4.3",
+    "jasmine": "^2.4.1",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.22",
+    "karma-chrome-launcher": "^0.2.3",
+    "karma-cli": "^0.1.2",
+    "karma-coverage": "^0.5.5",
+    "karma-firefox-launcher": "^0.1.7",
+    "karma-jasmine": "^0.3.8",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "rc": "1.0.1",
@@ -32,7 +40,8 @@
   },
   "scripts": {
     "debug": "node debug app.js",
-    "start": "sails lift"
+    "start": "sails lift",
+    "test": "karma start; cucumber.js"
   },
   "main": "app.js",
   "repository": {
