@@ -70,3 +70,20 @@ function getTransactions(ownerId, cb) {
     error: handleError,
   });
 }
+
+function addTransaction(ownerId, accountName, amount, merchant, category, date, cb) {
+  $.ajax({
+    url: '/transaction',
+    type: 'post',
+    data: {
+      ownerId: ownerId,
+      accountName: accountName,
+      amount: amount,
+      merchant: merchant,
+      category: category,
+      date: date
+    },
+    success: cb,
+    error: handleError,
+  });
+}

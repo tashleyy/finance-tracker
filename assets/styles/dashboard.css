@@ -25,9 +25,19 @@ body {
 
 table {
   background-color: white;
+  font-size: 12px;
 }
 
 .btn {
   background-color: white;
   border-color: black;
+}
+
+#transactionsList {
+  margin-top: 10px;
+}
+
+#transactionsWidget {
+  padding-left: 6%;
+  padding-right: 6%;
 }
