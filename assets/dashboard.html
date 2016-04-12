@@ -30,17 +30,62 @@
       </div>
       <div class="row">
         <!-- Left -->
-        <div class="col-md-3">
+        <div class="col-md-4">
           <!-- Transactions -->
-          <div class="widget">
+          <div class="widget" id="transactionsWidget">
             <div class="row">
               <h3>Transactions</h3>
             </div>
-          </div>
-        </div>
+            <div class="row">
+              <!-- Button trigger modal -->
+              <button type="button" id="addTransactionModalButton" class="btn btn-md" data-toggle="modal" data-target="#addTransactionModal">
+                Add Transaction
+              </button>
+
+              <!-- Modal -->
+              <div class="modal fade" id="addTransactionModal" tabindex="-1" role="dialog" aria-labelledby="addTransactionModalLabel" style="display: none;">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="addTransactionModalLabel">Add transaction</h4>
+                    </div>
+                    <div class="modal-body">
+                      <form>
+                        <div class="form-group">
+                          <label for="addTransactionInputFile">File input</label>
+                          <input type="file" id="addTransactionInputFile">
+                        </div>
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn" data-dismiss="modal">Close</button>
+                      <button type="button" id="addTransactionButton" class="btn">Submit</button>
+                    </div>
+                  </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+              </div><!-- /.modal -->
+            </div><!-- /.row --> 
+            <div class="row">
+              <table id="transactionsList" data-click-to-select="true" class="table table-hover table-bordered" style="width: 90%">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Account</th>
+                    <th>Merchant</th>
+                    <th>Category</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div><!-- /.row -->
+          </div><!-- /.widget -->
+        </div><!-- /.col-md-4 -->
         
         <!-- Middle -->
-        <div class="col-md-6">
+        <div class="col-md-5">
           <!-- Graphs -->
           <div class="widget">
             <div class="row">
@@ -52,23 +97,23 @@
         <!-- Right -->
         <div class="col-md-3">
           <!-- Accounts -->
-          <div class="widget">
+          <div class="widget" id="accountsWidget">
             <div class="row">
               <h3>Accounts</h3>
             </div>
             <div class="row">
               <!-- Button trigger modal -->
-              <button type="button" id="addModalButton" class="btn btn-md" data-toggle="modal" data-target="#addModal">
+              <button type="button" id="addAccountModalButton" class="btn btn-md" data-toggle="modal" data-target="#addAccountModal">
                 Add Account
               </button>
 
               <!-- Modal -->
-              <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" style="display: none;">
+              <div class="modal fade" id="addAccountModal" tabindex="-1" role="dialog" aria-labelledby="addAccountModalLabel" style="display: none;">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                      <h4 class="modal-title" id="addModalLabel">Add account</h4>
+                      <h4 class="modal-title" id="addAccountModalLabel">Add account</h4>
                     </div>
                     <div class="modal-body">
                       <form>
@@ -77,8 +122,8 @@
                           <input type="name" class="form-control" id="inputAccountName" placeholder="Account name">
                         </div>
                         <div class="form-group">
-                          <label for="exampleInputFile">File input</label>
-                          <input type="file" id="exampleInputFile">
+                          <label for="addAccountInputFile">File input</label>
+                          <input type="file" id="addAccountInputFile">
                         </div>
                       </form>
                     </div>
@@ -90,17 +135,17 @@
                 </div><!-- /.modal-dialog -->
               </div><!-- /.modal -->
               <!-- Button trigger modal -->
-              <button type="button" id="deleteModalButton" class="btn btn-md" data-toggle="modal" data-target="#deleteModal">
+              <button type="button" id="deleteAccountModalButton" class="btn btn-md" data-toggle="modal" data-target="#deleteAccountModal">
                 Delete Account
               </button>
 
               <!-- Modal -->
-              <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" style="display: none;">
+              <div class="modal fade" id="deleteAccountModal" tabindex="-1" role="dialog" aria-labelledby="deleteAccountModalLabel" style="display: none;">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                      <h4 class="modal-title" id="deleteModalLabel">Delete account</h4>
+                      <h4 class="modal-title" id="deleteAccountModalLabel">Delete account</h4>
                     </div>
                     <div class="modal-body">
                       <form>
@@ -120,8 +165,8 @@
               <table id="accountsList" data-click-to-select="true" class="table table-hover table-bordered" style="width: 90%">
                 <thead>
                   <tr>
-                    <th data-field="name">Account Name</th>
-                    <th data-checkbox="true">Visibility</th>
+                    <th>Account Name</th>
+                    <th>Visibility</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -158,8 +203,16 @@
             $('#accountsList tbody').append('<tr><td>' + data[i].name + '</td><td><input type="checkbox"></td></tr>');
           }
         });
+        getTransactions(userId, function(data) {
+          $('#transactionsList tbody').html('');
+          for (var i = 0; i < data.length; i++) {
+            var date = new Date(data[i].date);
+            var stringDate = (1900 + date.getYear()) + '/' + date.getMonth() + '/' + date.getDate(); 
+            $('#transactionsList tbody').append('<tr><td>' + stringDate + '</td><td>' + data[i].amount + '</td><td>' + data[i].accountName + '</td><td>' + data[i].merchant + '</td><td>' + data[i].category + '</td></tr>');
+          }
+        });
       });
-      $('#deleteModal').on('show.bs.modal', function () {
+      $('#deleteAccountModal').on('show.bs.modal', function () {
         getAccounts(userId, function (data) {
           $('#deleteAccountSelect').html('');            
           for (var i = 0; i < data.length; i++) {
@@ -170,7 +223,7 @@
       $('#deleteAccountButton').click(function () {
         var accountName = $('#deleteAccountSelect').val();
         deleteAccount(userId, accountName, function (data) {
-          $('#deleteModal').modal('hide');
+          $('#deleteAccountModal').modal('hide');
           $('#accountsList tbody').html('');
           for (var i = 0; i < data.length; i++) {
             $('#accountsList tbody').append('<tr><td>' + data[i].name + '</td><td><input type="checkbox"></td></tr>');
@@ -178,9 +231,10 @@
         });
       });
       $('#addAccountButton').click(function () {
+        // Replace this with parse csv and add accounts
         var accountName = $('#inputAccountName').val();
         addAccount(userId, accountName, function (data) {
-          $('#addModal').modal('hide');
+          $('#addAccountModal').modal('hide');
           $('#accountsList tbody').html('');
           for (var i = 0; i < data.length; i++) {
             $('#accountsList tbody').append('<tr><td>' + data[i].name + '</td><td><input type="checkbox"></td></tr>');
@@ -193,6 +247,9 @@
         logout(function(data) {
           location = '/';
         });
+      });
+      $('#addTransactionButton').click(function () {
+        // Parse CSV and add transactions
       });
     </script>
   </body>
