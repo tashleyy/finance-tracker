@@ -188,6 +188,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script>
       var userId;
+      var idleTime = 0;
       $(document).ready(function () {
         userId = sessionStorage.getItem('_userId');
         if (!userId) location = '/';
@@ -206,6 +207,21 @@
             $('#transactionsList tbody').append('<tr><td>' + stringDate + '</td><td>' + data[i].amount + '</td><td>' + data[i].accountName + '</td><td>' + data[i].merchant + '</td><td>' + data[i].category + '</td></tr>');
           }
         });
+        var idleInterval = setInterval(timerIncrement, 60000);
+        $(this).mousemove(function(e) {
+          idleTime = 0;
+        });
+        $(this).keypress(function(e) {
+          idleTime = 0;
+        });
+        function timerIncrement() {
+          idleTime += 1;
+          if (idleTime > 4) {
+            logout(function(data) {
+              location = '/';
+            });
+          }
+        }
       });
       $('#deleteAccountModal').on('show.bs.modal', function () {
         getAccounts(userId, function (data) {
