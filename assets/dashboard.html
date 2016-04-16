@@ -65,7 +65,7 @@
                   </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
               </div><!-- /.modal -->
-            </div><!-- /.row --> 
+            </div><!-- /.row -->
             <div class="row">
               <table id="transactionsList" data-click-to-select="true" class="table table-hover table-bordered" style="width: 90%">
                 <thead>
@@ -83,7 +83,7 @@
             </div><!-- /.row -->
           </div><!-- /.widget -->
         </div><!-- /.col-md-4 -->
-        
+
         <!-- Middle -->
         <div class="col-md-5">
           <!-- Graphs -->
@@ -93,7 +93,7 @@
             </div>
           </div>
         </div>
-        
+
         <!-- Right -->
         <div class="col-md-3">
           <!-- Accounts -->
@@ -117,10 +117,6 @@
                     </div>
                     <div class="modal-body">
                       <form>
-                        <div class="form-group">
-                          <label for="inputAccountName">Account name</label>
-                          <input type="name" class="form-control" id="inputAccountName" placeholder="Account name">
-                        </div>
                         <div class="form-group">
                           <label for="addAccountInputFile">File input</label>
                           <input type="file" id="addAccountInputFile">
@@ -174,7 +170,7 @@
               </table>
             </div><!-- /.row -->
           </div><!-- /.widget -->
-          
+
           <!-- Monthly Budgets -->
           <div class="widget">
             <div class="row">
@@ -190,7 +186,6 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    <script src="../js/dbquery.js"></script>
     <script>
       var userId;
       $(document).ready(function () {
@@ -207,16 +202,16 @@
           $('#transactionsList tbody').html('');
           for (var i = 0; i < data.length; i++) {
             var date = new Date(data[i].date);
-            var stringDate = (1900 + date.getYear()) + '/' + date.getMonth() + '/' + date.getDate(); 
+            var stringDate = (1900 + date.getYear()) + '/' + date.getMonth() + '/' + date.getDate();
             $('#transactionsList tbody').append('<tr><td>' + stringDate + '</td><td>' + data[i].amount + '</td><td>' + data[i].accountName + '</td><td>' + data[i].merchant + '</td><td>' + data[i].category + '</td></tr>');
           }
         });
       });
       $('#deleteAccountModal').on('show.bs.modal', function () {
         getAccounts(userId, function (data) {
-          $('#deleteAccountSelect').html('');            
+          $('#deleteAccountSelect').html('');
           for (var i = 0; i < data.length; i++) {
-            $('#deleteAccountSelect').append('<option>' + data[i].name + '</option>');                          
+            $('#deleteAccountSelect').append('<option>' + data[i].name + '</option>');
           }
         });
       });
@@ -231,15 +226,38 @@
         });
       });
       $('#addAccountButton').click(function () {
-        // Replace this with parse csv and add accounts
-        var accountName = $('#inputAccountName').val();
-        addAccount(userId, accountName, function (data) {
-          $('#addAccountModal').modal('hide');
-          $('#accountsList tbody').html('');
-          for (var i = 0; i < data.length; i++) {
-            $('#accountsList tbody').append('<tr><td>' + data[i].name + '</td><td><input type="checkbox"></td></tr>');
+        $('#addAccountInputFile').parse({
+          config: {
+            header: true,
+            complete: function(results, file) {
+              var length = results.data.length;
+              for (var i = 0; i < length; i++) {
+                addAccount(userId, results.data[i].name, results.data[i].balance, function (data) {
+                  if (i >= length-1) {
+                    $('#addAccountModal').modal('hide');
+                    $('#accountsList tbody').html('');
+                    for (var j = 0; j < data.length; j++) {
+                      $('#accountsList tbody').append('<tr><td>' + data[j].name + '</td><td><input type="checkbox"></td></tr>');
+                    }
+                  }
+                });
+              }
+            }
+          },
+          before: function(file, inputElem) {
+            var skipObject = {
+              action: 'skip',
+              reason: 'File not supported'
+            };
+            var continueObject = {
+              action: 'continue',
+            };
+            var textType = /text.*/;
+            if (file.type.match(textType)) {
+              return continueObject;
+            }
+            return skipObject;
           }
-          $('#inputAccountName').val('');
         });
       });
       $('#signOutButton').click(function () {
