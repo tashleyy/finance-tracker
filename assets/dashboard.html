@@ -203,7 +203,7 @@
           $('#transactionsList tbody').html('');
           for (var i = 0; i < data.length; i++) {
             var date = new Date(data[i].date);
-            var stringDate = (1900 + date.getYear()) + '/' + date.getMonth() + '/' + date.getDate();
+            var stringDate = (1900 + date.getYear()) + '/' + (date.getMonth()+1) + '/' + (date.getDate()+1);
             $('#transactionsList tbody').append('<tr><td>' + stringDate + '</td><td>' + data[i].amount + '</td><td>' + data[i].accountName + '</td><td>' + data[i].merchant + '</td><td>' + data[i].category + '</td></tr>');
           }
         });
@@ -283,7 +283,35 @@
         });
       });
       $('#addTransactionButton').click(function () {
-        // Parse CSV and add transactions
+        $('#addTransactionInputFile').parse({
+          config: {
+            header: true,
+            complete: function(results, file) {
+              var length = results.data.length;
+              for (var i = 0; i < length; i++) {
+                addTransaction(userId, results.data[i].account, results.data[i].amount, results.data[i].merchant, results.data[i].category, results.data[i].date, function (data) {
+                  if (i >= length-1) {
+                    $('#addTransactionModal').modal('hide');
+                  }
+                });
+              }
+            }
+          },
+          before: function(file, inputElem) {
+            var skipObject = {
+              action: 'skip',
+              reason: 'File not supported'
+            };
+            var continueObject = {
+              action: 'continue',
+            };
+            var textType = /text.*/;
+            if (file.type.match(textType)) {
+              return continueObject;
+            }
+            return skipObject;
+          }
+        });
       });
     </script>
   </body>
