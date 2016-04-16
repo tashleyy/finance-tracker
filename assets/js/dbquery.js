@@ -38,14 +38,14 @@ function deleteAccount(ownerId, accountName, cb) {
   });
 }
 
-function addAccount(ownerId, accountName, cb) {
+function addAccount(ownerId, accountName, balance, cb) {
   $.ajax({
     url: '/account',
     type: 'post',
     data: {
       name: accountName,
       ownerId: ownerId,
-      balance: '500.00', // default for now
+      balance: balance,
     },
     success: cb,
     error: handleError,
