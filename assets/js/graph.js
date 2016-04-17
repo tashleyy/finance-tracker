@@ -88,6 +88,7 @@ function graphAccount(ownerId, accountName) {
       var newLine = svg.append('path')
         .datum(finalData)
         .attr('class', 'line')
+        .attr('id', accountName + 'Line')
         .attr('clip-path', 'url(#clip)')
         .attr('d', line);
     });
@@ -95,5 +96,5 @@ function graphAccount(ownerId, accountName) {
 }
 
 function ungraphAccount(ownerId, accountName) {
-  console.log('ungraph');
+  $('#' + accountName + 'Line').remove();
 }
