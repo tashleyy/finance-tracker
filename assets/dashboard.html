@@ -1,0 +1,336 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Finance Tracker</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="../styles/dashboard.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-3">
+          <h1 style="color: white">Finance Tracker</h1>
+        </div>
+        <div class="col-md-1 col-md-offset-8">
+          <button type="button" id="signOutButton" class="btn btn-md">Sign Out</button>
+        </div>
+      </div>
+      <div class="row">
+        <!-- Left -->
+        <div class="col-md-4">
+          <!-- Transactions -->
+          <div class="widget" id="transactionsWidget">
+            <div class="row">
+              <h3>Transactions</h3>
+            </div>
+            <div class="row">
+              <!-- Button trigger modal -->
+              <button type="button" id="addTransactionModalButton" class="btn btn-md" data-toggle="modal" data-target="#addTransactionModal">
+                Add Transaction
+              </button>
+
+              <!-- Modal -->
+              <div class="modal fade" id="addTransactionModal" tabindex="-1" role="dialog" aria-labelledby="addTransactionModalLabel" style="display: none;">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="addTransactionModalLabel">Add transaction</h4>
+                    </div>
+                    <div class="modal-body">
+                      <form>
+                        <div class="form-group">
+                          <label for="addTransactionInputFile">File input</label>
+                          <input type="file" id="addTransactionInputFile">
+                        </div>
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn" data-dismiss="modal">Close</button>
+                      <button type="button" id="addTransactionButton" class="btn">Submit</button>
+                    </div>
+                  </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+              </div><!-- /.modal -->
+            </div><!-- /.row -->
+            <div class="row">
+              <table id="transactionsList" data-click-to-select="true" class="table table-hover table-bordered" style="width: 90%">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Account</th>
+                    <th>Merchant</th>
+                    <th>Category</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div><!-- /.row -->
+          </div><!-- /.widget -->
+        </div><!-- /.col-md-4 -->
+
+        <!-- Middle -->
+        <div class="col-md-5">
+          <!-- Graphs -->
+          <div class="widget" id="graphWidget">
+            <div class="row">
+              <h3>Graphs</h3>
+            </div>
+            <div class="row">
+              <div id="graph">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right -->
+        <div class="col-md-3">
+          <!-- Accounts -->
+          <div class="widget" id="accountsWidget">
+            <div class="row">
+              <h3>Accounts</h3>
+            </div>
+            <div class="row">
+              <!-- Button trigger modal -->
+              <button type="button" id="addAccountModalButton" class="btn btn-md" data-toggle="modal" data-target="#addAccountModal">
+                Add Account
+              </button>
+
+              <!-- Modal -->
+              <div class="modal fade" id="addAccountModal" tabindex="-1" role="dialog" aria-labelledby="addAccountModalLabel" style="display: none;">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="addAccountModalLabel">Add account</h4>
+                    </div>
+                    <div class="modal-body">
+                      <form>
+                        <div class="form-group">
+                          <label for="addAccountInputFile">File input</label>
+                          <input type="file" id="addAccountInputFile">
+                        </div>
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn" data-dismiss="modal">Close</button>
+                      <button type="button" id="addAccountButton" class="btn">Submit</button>
+                    </div>
+                  </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+              </div><!-- /.modal -->
+              <!-- Button trigger modal -->
+              <button type="button" id="deleteAccountModalButton" class="btn btn-md" data-toggle="modal" data-target="#deleteAccountModal">
+                Delete Account
+              </button>
+
+              <!-- Modal -->
+              <div class="modal fade" id="deleteAccountModal" tabindex="-1" role="dialog" aria-labelledby="deleteAccountModalLabel" style="display: none;">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="deleteAccountModalLabel">Delete account</h4>
+                    </div>
+                    <div class="modal-body">
+                      <form>
+                        <select id="deleteAccountSelect" class="form-control">
+                        </select>
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn" data-dismiss="modal">Close</button>
+                      <button type="button" id="deleteAccountButton" class="btn">Delete</button>
+                    </div>
+                  </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+              </div><!-- /.modal -->
+            </div><!-- /.row -->
+            <div class="row">
+              <table id="accountsList" data-click-to-select="true" class="table table-hover table-bordered" style="width: 90%">
+                <thead>
+                  <tr>
+                    <th>Account Name</th>
+                    <th>Visibility</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div><!-- /.row -->
+          </div><!-- /.widget -->
+
+          <!-- Monthly Budgets -->
+          <div class="widget">
+            <div class="row">
+              <h3>Monthly Budgets</h3>
+            </div>
+          </div>
+        </div><!-- /.col-md-3 -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script>
+      var userId;
+      var idleTime = 0;
+      $(document).ready(function () {
+        userId = sessionStorage.getItem('_userId');
+        if (!userId) location = '/';
+        userId = atob(userId);
+        getAccounts(userId, function (data) {
+          $('#accountsList tbody').html('');
+          for (var i = 0; i < data.length; i++) {
+            $('#accountsList tbody').append('<tr><td>' + data[i].name + '</td><td><input class="accountCheckbox" type="checkbox" value="' + data[i].name + '"></td></tr>');
+          }
+          $('.accountCheckbox').change(function() {
+            if (this.checked) {
+              graphAccount(userId, this.value);          
+            } else {
+              ungraphAccount(userId, this.value);
+            }
+          });
+        });
+        var idleInterval = setInterval(timerIncrement, 60000);
+        $(this).mousemove(function(e) {
+          idleTime = 0;
+        });
+        $(this).keypress(function(e) {
+          idleTime = 0;
+        });
+        function timerIncrement() {
+          idleTime += 1;
+          if (idleTime > 4) {
+            logout(function(data) {
+              location = '/';
+            });
+          }
+        }
+        setupGraph();
+      });
+      $('#deleteAccountModal').on('show.bs.modal', function () {
+        getAccounts(userId, function (data) {
+          $('#deleteAccountSelect').html('');
+          for (var i = 0; i < data.length; i++) {
+            $('#deleteAccountSelect').append('<option>' + data[i].name + '</option>');
+          }
+        });
+      });
+      $('#deleteAccountButton').click(function () {
+        var accountName = $('#deleteAccountSelect').val();
+        deleteAccount(userId, accountName, function (data) {
+          $('#deleteAccountModal').modal('hide');
+          $('#accountsList tbody').html('');
+          for (var i = 0; i < data.length; i++) {
+            $('#accountsList tbody').append('<tr><td>' + data[i].name + '</td><td><input class="accountCheckbox" type="checkbox" value="' + data[i].name + '"></td></tr>');
+          }
+          $('.accountCheckbox').change(function() {
+            if (this.checked) {
+              graphAccount(userId, this.value);          
+            } else {
+              ungraphAccount(userId, this.value);
+            }
+          });
+        });
+      });
+      $('#addAccountButton').click(function () {
+        $('#addAccountInputFile').parse({
+          config: {
+            header: true,
+            complete: function(results, file) {
+              var length = results.data.length;
+              for (var i = 0; i < length; i++) {
+                addAccount(userId, results.data[i].name, results.data[i].balance, function (data) {
+                  if (i >= length-1) {
+                    $('#addAccountModal').modal('hide');
+                    $('#accountsList tbody').html('');
+                    for (var j = 0; j < data.length; j++) {
+                      $('#accountsList tbody').append('<tr><td>' + data[j].name + '</td><td><input class="accountCheckbox" type="checkbox" value="' + data[j].name + '"></td></tr>');
+                    }
+                    $('.accountCheckbox').change(function() {
+                      if (this.checked) {
+                        graphAccount(userId, this.value);          
+                      } else {
+                        ungraphAccount(userId, this.value);
+                      }
+                    });
+                  }
+                });
+              }
+            }
+          },
+          before: function(file, inputElem) {
+            var skipObject = {
+              action: 'skip',
+              reason: 'File not supported'
+            };
+            var continueObject = {
+              action: 'continue',
+            };
+            var textType = /text.*/;
+            if (file.type.match(textType)) {
+              return continueObject;
+            }
+            return skipObject;
+          }
+        });
+      });
+      $('#signOutButton').click(function () {
+        sessionStorage.removeItem('_userId');
+        logout(function(data) {
+          location = '/';
+        });
+      });
+      $('#addTransactionButton').click(function () {
+        $('#addTransactionInputFile').parse({
+          config: {
+            header: true,
+            complete: function(results, file) {
+              var length = results.data.length;
+              for (var i = 0; i < length; i++) {
+                addTransaction(userId, results.data[i].account, results.data[i].amount, results.data[i].merchant, results.data[i].category, results.data[i].date, function (data) {
+                  if (i >= length-1) {
+                    $('#addTransactionModal').modal('hide');
+                  }
+                });
+              }
+            }
+          },
+          before: function(file, inputElem) {
+            var skipObject = {
+              action: 'skip',
+              reason: 'File not supported'
+            };
+            var continueObject = {
+              action: 'continue',
+            };
+            var textType = /text.*/;
+            if (file.type.match(textType)) {
+              return continueObject;
+            }
+            return skipObject;
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

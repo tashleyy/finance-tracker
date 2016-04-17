@@ -59,12 +59,13 @@ function logout(cb) {
   }).always(cb);
 }
 
-function getTransactions(ownerId, cb) {
+function getTransactions(ownerId, accountName, cb) {
   $.ajax({
     url: '/transaction',
     type: 'get',
     data: {
       ownerId: ownerId,
+      accountName: accountName
     },
     success: cb,
     error: handleError,
@@ -84,6 +85,21 @@ function addTransaction(ownerId, accountName, amount, merchant, category, date, 
       date: date
     },
     success: cb,
+    error: handleError,
+  });
+}
+
+function getAccount(ownerId, accountName, cb) {
+  $.ajax({
+    url: '/account',
+    type: 'get',
+    data: {
+      ownerId: ownerId,
+      name: accountName
+    },
+    success: function(data) {
+      cb(data[0]);
+    },
     error: handleError,
   });
 }

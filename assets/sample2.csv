@@ -1,5 +1,2 @@
 account,amount,merchant,category,date
-plz,1.00,merch1,Other,2014-04-16
-plz,2.00,merch2,Other,2014-04-16
-plz,3.00,merch3,Other,2014-04-16
-plz,4.00,merch4,Other,2014-04-16
+testcsv2,100.00,merch5,Other,2016-01-03
