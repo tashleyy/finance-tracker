@@ -41,3 +41,37 @@ table {
   padding-left: 6%;
   padding-right: 6%;
 }
+
+
+/****related to graph
+*/
+            /* tell the SVG path to be a thin blue line without any area fill */
+            path {
+                stroke: steelblue;
+                stroke-width: 1;
+                fill: none;
+            }
+
+            path2 {
+                stroke: red;
+                stroke-width: 1;
+                fill: none;
+            }
+
+            
+            .axis {
+              shape-rendering: crispEdges;
+            }
+            .x.axis line {
+              stroke: lightgrey;
+            }
+            .x.axis .minor {
+              stroke-opacity: .5;
+            }
+            .x.axis path {
+              display: none;
+            }
+            .y.axis line, .y.axis path {
+              fill: none;
+              stroke: #000;
+            }

@@ -16,9 +16,13 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="../styles/dashboard.css" rel="stylesheet">
+
+    <script src="http://mbostock.github.com/d3/d3.v2.js"></script>
+     <script type = "text/javascript" src = "lineGraph.js"></script>
+
   </head>
 
-  <body>
+  <body onload = "loadGraph()">
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-3">
@@ -90,9 +94,33 @@
           <div class="widget">
             <div class="row">
               <h3>Graphs</h3>
-            </div>
-          </div>
-        </div>
+
+                
+             <br>
+				<div class="time-select">
+					<div id="tab1" class="tab active">
+						<button type="button" id = "3-month" class="btn btn-md" onclick= "loadGraph()">Show 3 month graph</button>
+						<!--<button type="button" id = "1 month" class="btn btn-md" onclick="loadGraph(getUrlVars()['ticker'], '1 month')">1 Month</button>
+						<button type="button" id = "3 month" class="btn btn-md" onclick="loadGraph(getUrlVars()['ticker'], '3 month')">3 Month</button>
+						<button type="button" id = "6 month" class="btn btn-md" onclick="loadGraph(getUrlVars()['ticker'], '6 month')">6 Month</button>-->
+
+						<br> </br>
+						<form>
+							Start Date:
+							    <input id="datepickerStart"></input>
+							    <p>
+							    End Date:
+								<input id="datepickerEnd"></input> </p>
+								<button type = "button" id = "date-picker" class="btn btn-md" onclick = "loadGraph()">Submit</button>
+						</form>
+			</div>
+			<br>
+				
+			</div>
+		</div>
+
+		</div>
+		</div>
         
         <!-- Right -->
         <div class="col-md-3">
@@ -226,7 +254,7 @@
           $('#deleteAccountModal').modal('hide');
           $('#accountsList tbody').html('');
           for (var i = 0; i < data.length; i++) {
-            $('#accountsList tbody').append('<tr><td>' + data[i].name + '</td><td><input type="checkbox"></td></tr>');
+            $('#accountsList tbody').append('<tr><td>' + data[i].name + '</td><td><input type="checkbox" onclick = "addToGraph(data[i].name)"></td></tr>');
           }
         });
       });
@@ -237,7 +265,7 @@
           $('#addAccountModal').modal('hide');
           $('#accountsList tbody').html('');
           for (var i = 0; i < data.length; i++) {
-            $('#accountsList tbody').append('<tr><td>' + data[i].name + '</td><td><input type="checkbox"></td></tr>');
+            $('#accountsList tbody').append('<tr><td>' + data[i].name + '</td><td><input type="checkbox" onclick = "addToGraph(data[i].name)"></td></tr>');
           }
           $('#inputAccountName').val('');
         });
