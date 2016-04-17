@@ -67,7 +67,7 @@
               </div><!-- /.modal -->
             </div><!-- /.row -->
             <div class="row">
-              <table id="transactionsList" data-click-to-select="true" class="table table-hover table-bordered" style="width: 90%">
+              <table id="transactionsList" data-click-to-select="true" class="table table-bordered" style="width: 90%">
                 <thead>
                   <tr>
                     <th>Date</th>
@@ -162,7 +162,7 @@
               </div><!-- /.modal -->
             </div><!-- /.row -->
             <div class="row">
-              <table id="accountsList" data-click-to-select="true" class="table table-hover table-bordered" style="width: 90%">
+              <table id="accountsList" data-click-to-select="true" class="table table-bordered" style="width: 90%">
                 <thead>
                   <tr>
                     <th>Account Name</th>
@@ -197,21 +197,44 @@
     <script>
       var userId;
       var idleTime = 0;
+      var transactions = [];
+      var sortTransactionsBy = 'date';
       $(document).ready(function () {
         userId = sessionStorage.getItem('_userId');
         if (!userId) location = '/';
         userId = atob(userId);
         getAccounts(userId, function (data) {
           $('#accountsList tbody').html('');
+          data.sort(function (a, b) {
+            if (a.name < b.name) return -1;
+            if (a.name > b.name) return 1;
+            return 0;
+          });
           for (var i = 0; i < data.length; i++) {
-            $('#accountsList tbody').append('<tr><td>' + data[i].name + '</td><td><input class="accountCheckbox" type="checkbox" value="' + data[i].name + '"></td></tr>');
+            $('#accountsList tbody').append('<tr><td class="accountName">' + data[i].name + '</td><td><input class="accountCheckbox" type="checkbox" value="' + data[i].name + '"></td></tr>');
           }
           $('.accountCheckbox').change(function() {
             if (this.checked) {
-              graphAccount(userId, this.value);          
+              graphAccount(userId, this.value);
             } else {
               ungraphAccount(userId, this.value);
             }
+          });
+          $('.accountName').click(function () {
+            getTransactions(userId, $(this).html(), function(data) {
+              data.sort(function(a, b) {
+                if (a[sortTransactionsBy] < b[sortTransactionsBy]) return -1; 
+                if (a[sortTransactionsBy] > b[sortTransactionsBy]) return 1;
+                return 0; 
+              });
+              transactions = data;
+              $('#transactionsList tbody').html('');
+              for (var i = 0; i < data.length; i++) {
+                var date = new Date(data[i].date);
+                var stringDate = (1900 + date.getYear()) + '/' + (date.getMonth()+1) + '/' + (date.getDate()+1);
+                $('#transactionsList tbody').append('<tr><td>' + stringDate + '</td><td>' + data[i].amount + '</td><td>' + data[i].accountName + '</td><td>' + data[i].merchant + '</td><td>' + data[i].category + '</td></tr>');
+              }
+            });
           });
         });
         var idleInterval = setInterval(timerIncrement, 60000);
@@ -244,15 +267,36 @@
         deleteAccount(userId, accountName, function (data) {
           $('#deleteAccountModal').modal('hide');
           $('#accountsList tbody').html('');
+          data.sort(function (a, b) {
+            if (a.name < b.name) return -1;
+            if (a.name > b.name) return 1;
+            return 0;
+          });
           for (var i = 0; i < data.length; i++) {
-            $('#accountsList tbody').append('<tr><td>' + data[i].name + '</td><td><input class="accountCheckbox" type="checkbox" value="' + data[i].name + '"></td></tr>');
+            $('#accountsList tbody').append('<tr><td class="accountName">' + data[i].name + '</td><td><input class="accountCheckbox" type="checkbox" value="' + data[i].name + '"></td></tr>');
           }
           $('.accountCheckbox').change(function() {
             if (this.checked) {
-              graphAccount(userId, this.value);          
+              graphAccount(userId, this.value);
             } else {
               ungraphAccount(userId, this.value);
             }
+          });
+          $('.accountName').click(function () {
+            getTransactions(userId, $(this).html(), function(data) {
+              data.sort(function(a, b) {
+                if (a[sortTransactionsBy] < b[sortTransactionsBy]) return -1; 
+                if (a[sortTransactionsBy] > b[sortTransactionsBy]) return 1;
+                return 0; 
+              });
+              transactions = data;
+              $('#transactionsList tbody').html('');
+              for (var i = 0; i < data.length; i++) {
+                var date = new Date(data[i].date);
+                var stringDate = (1900 + date.getYear()) + '/' + (date.getMonth()+1) + '/' + (date.getDate()+1);
+                $('#transactionsList tbody').append('<tr><td>' + stringDate + '</td><td>' + data[i].amount + '</td><td>' + data[i].accountName + '</td><td>' + data[i].merchant + '</td><td>' + data[i].category + '</td></tr>');
+              }
+            });
           });
         });
       });
@@ -265,17 +309,38 @@
               for (var i = 0; i < length; i++) {
                 addAccount(userId, results.data[i].name, results.data[i].balance, function (data) {
                   if (i >= length-1) {
+                    data.sort(function (a, b) {
+                      if (a.name < b.name) return -1;
+                      if (a.name > b.name) return 1;
+                      return 0;
+                    });
                     $('#addAccountModal').modal('hide');
                     $('#accountsList tbody').html('');
                     for (var j = 0; j < data.length; j++) {
-                      $('#accountsList tbody').append('<tr><td>' + data[j].name + '</td><td><input class="accountCheckbox" type="checkbox" value="' + data[j].name + '"></td></tr>');
+                      $('#accountsList tbody').append('<tr><td class="accountName">' + data[j].name + '</td><td><input class="accountCheckbox" type="checkbox" value="' + data[j].name + '"></td></tr>');
                     }
                     $('.accountCheckbox').change(function() {
                       if (this.checked) {
-                        graphAccount(userId, this.value);          
+                        graphAccount(userId, this.value);
                       } else {
                         ungraphAccount(userId, this.value);
                       }
+                    });
+                    $('.accountName').click(function () {
+                      getTransactions(userId, $(this).html(), function(data) {
+                        data.sort(function(a, b) {
+                          if (a[sortTransactionsBy] < b[sortTransactionsBy]) return -1; 
+                          if (a[sortTransactionsBy] > b[sortTransactionsBy]) return 1;
+                          return 0; 
+                        });
+                        transactions = data;
+                        $('#transactionsList tbody').html('');
+                        for (var j = 0; j < data.length; j++) {
+                          var date = new Date(data[j].date);
+                          var stringDate = (1900 + date.getYear()) + '/' + (date.getMonth()+1) + '/' + (date.getDate()+1);
+                          $('#transactionsList tbody').append('<tr><td>' + stringDate + '</td><td>' + data[j].amount + '</td><td>' + data[j].accountName + '</td><td>' + data[j].merchant + '</td><td>' + data[j].category + '</td></tr>');
+                        }
+                      });
                     });
                   }
                 });
@@ -334,6 +399,32 @@
             return skipObject;
           }
         });
+      });
+      $('#transactionsList thead tr th').click(function () {
+        if ($(this).html() == 'Date') {
+          sortTransactionsBy = 'date';
+        } else if ($(this).html() == 'Amount') {
+          sortTransactionsBy = 'amount';
+        } else if ($(this).html() == 'Account') {
+          sortTransactionsBy = 'account';
+        } else if ($(this).html() == 'Merchant') {
+          sortTransactionsBy = 'merchant';
+        } else if ($(this).html() == 'Category') {
+          sortTransactionsBy = 'category';
+        }
+        if (transactions) {
+          transactions.sort(function(a, b) {
+            if (a[sortTransactionsBy] < b[sortTransactionsBy]) return -1; 
+            if (a[sortTransactionsBy] > b[sortTransactionsBy]) return 1;
+            return 0; 
+          });
+          $('#transactionsList tbody').html('');
+          for (var i = 0; i < transactions.length; i++) {
+            var date = new Date(transactions[i].date);
+            var stringDate = (1900 + date.getYear()) + '/' + (date.getMonth()+1) + '/' + (date.getDate()+1);
+            $('#transactionsList tbody').append('<tr><td>' + stringDate + '</td><td>' + transactions[i].amount + '</td><td>' + transactions[i].accountName + '</td><td>' + transactions[i].merchant + '</td><td>' + transactions[i].category + '</td></tr>');
+          }
+        }
       });
     </script>
   </body>

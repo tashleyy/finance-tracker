@@ -47,3 +47,13 @@ table {
   stroke: black;
   stroke-width: 2px;
 }
+
+.accountName {
+  cursor: pointer;
+  cursor: hand;
+}
+
+#transactionsList thead tr th {
+  cursor: pointer;
+  cursor: hand;
+}
