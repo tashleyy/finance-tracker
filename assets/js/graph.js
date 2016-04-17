@@ -73,7 +73,7 @@ function graphAccount(ownerId, accountName) {
         dayBefore.setDate(dayBefore.getDate()-1);
         dayBefore = dayBefore.toISOString();
         var prevTransactionDate = dayBefore;
-        if (index+1 < array.length) prevTransactionDate = array[index+1].date;
+        if (index+1 < array.length && array[index].date != array[index+1].date) prevTransactionDate = array[index+1].date;
         if (transformedData[dayBefore]) transformedData[dayBefore] -= element.amount;
         else transformedData[dayBefore] = transformedData[element.date] - element.amount;
         transformedData[prevTransactionDate] = transformedData[dayBefore];
