@@ -2,11 +2,12 @@ Feature: Accounts List
     In order to use the site
     As a user
     I need to be able to view my accounts
-    Scenario: Pressing Add Account Button
+    Scenario: Add Account
         Given I am on the dashboard page
         When I press the button Add Account
-        And I upload a valid file
-        Then I should be on the dashboard page
+        When I fill #inputAccountName selector with TestAdd
+        When I press the button Submit
+        Then I should have at least 1 of #accountsList tbody tr selector
     Scenario: Delete Account
         Given I am on the dashboard page
         When I press the button Delete Account

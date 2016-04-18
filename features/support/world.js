@@ -31,14 +31,6 @@ function World() {
   this.assertElementsAtLeast = function(selector, num) {
     this.browser.assert.elements(selector, {atLeast: num});
   };
-  
-  this.assertElementsAtLeast = function (selector, num) {
-    this.browser.assert.elements(selector, { atLeast: num });
-  };
-
-  this.attachFile = function (selector, filename) {
-    this.browser.attach(selector, filename);
-  };
 }
 
 module.exports = function() {
