@@ -9,3 +9,16 @@ Feature: Graph Widget
         Then I should have 2 of .axis selector
         Then I should have 1 of .xAxis selector
         Then I should have 1 of .yAxis selector
+    Scenario: Graph Account
+        Given I am on the dashboard page
+        Given I have imported the accounts in file /home/team-c/finance-tracker/assets/account.csv
+        Given I have imported the transactions in file /home/team-c/finance-tracker/assets/transaction.csv
+        When I check the checkbox testcsv2
+        Then I should have 1 of #testcsv2Line selector
+        Then I should have at least 1 of .line selector
+    Scenario: Ungraph Account
+        Given I am on the dashboard page
+        Given I have imported the accounts in file /home/team-c/finance-tracker/assets/account.csv
+        Given I have imported the transactions in file /home/team-c/finance-tracker/assets/transaction.csv
+        When I uncheck the checkbox testcsv2
+        Then I should have 0 of #testcsv2Line selector
