@@ -90,9 +90,9 @@ describe('DBQuery', function() {
   it('should be able to add Transaction', function(done) {
     getAccounts(ownerId, function(accounts) {
       if (accounts.length === 0) {
-        addAccount(ownerId, accounts[0].name, function() {
-          addTransaction(ownerId, accounts[0].name, '-21.21', 'testmerch', 'Other', '2016-02-14', function(transaction) {
-            expect(transaction.accountName).toEqual(accounts[0].name);
+        addAccount(ownerId, 'Checking', function() {
+          addTransaction(ownerId, 'Checking', '-21.21', 'testmerch', 'Other', '2016-02-14', function(transaction) {
+            expect(transaction.accountName).toEqual('Checking');
             expect(transaction.amount).toEqual(-21.21);
             expect(transaction.ownerId).toEqual(ownerId);
             expect(transaction.merchant).toEqual('testmerch');

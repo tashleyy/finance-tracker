@@ -1,13 +1,14 @@
 Feature: Accounts List
     In order to use the site
     As a user
-    I need to be able to view my accounts
+    I need to be able to view, add, and remove my accounts
     Scenario: Add Account
         Given I am on the dashboard page
         When I press the button Add Account
-        When I fill #inputAccountName selector with TestAdd
+        When I upload a file called /home/team-c/finance-tracker/assets/account.csv to #addAccountInputFile selector
         When I press the button Submit
-        Then I should have at least 1 of #accountsList tbody tr selector
+        Then I should have at least 4 of #accountsList tbody tr selector
+        Then I should be on the dashboard page
     Scenario: Delete Account
         Given I am on the dashboard page
         When I press the button Delete Account
