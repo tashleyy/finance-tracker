@@ -19,7 +19,7 @@ module.exports = {
 
   models: {
     connection: 'remoteServer'
-  },
+  }
 
   /***************************************************************************
    * Set the port in the production environment to 80                        *

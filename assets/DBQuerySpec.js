@@ -36,7 +36,7 @@ describe('DBQuery', function() {
       }
       if (!found) {
         addAccount(ownerId, 'Checking', function(moreAccounts) {
-          accounts.forEach(function(element, index, array) {
+          accounts.forEach(function(element) {
             expect(moreAccounts).toContain(element);
           });
           for (var i = 0; i < moreAccounts.length; i++) {

@@ -28,14 +28,14 @@ module.exports.policies = {
 
   '*': true,
   'DashboardController': {
-    '*': 'isAuthenticated',
+    '*': 'isAuthenticated'
   },
   'AccountController': {
-    '*': 'isAuthenticated',
+    '*': 'isAuthenticated'
   },
   'TransactionController': {
-    '*': 'isAuthenticated',
-  },
+    '*': 'isAuthenticated'
+  }
 
   /***************************************************************************
   *                                                                          *

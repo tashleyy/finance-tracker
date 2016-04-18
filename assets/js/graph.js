@@ -1,3 +1,5 @@
+/* eslint no-unused-vars: "off" */
+
 var margin = {top: 20, right: 20, bottom: 30, left: 40};
 var width = 400 - margin.left - margin.right;
 var height = 300 - margin.top - margin.bottom;

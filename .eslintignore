@@ -1,0 +1,10 @@
+**/*.min.js
+**/*.csv
+**/*.md
+coverage/*
+node_modules/*
+tasks/*
+assets/lib/*
+assets/js/dependencies/sails.io.js
+Procfile
+package.json

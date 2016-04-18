@@ -4,9 +4,10 @@
  * @description :: Server-side logic for managing transactions
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
+/* eslint no-unused-vars: "off" */
 
 module.exports = {
-	create: function(req, res) {
+  create: function (req, res) {
     var params = req.params.all();
     if (!params.amount || !params.accountName || !params.merchant || !params.ownerId || !params.date) {
       return res.badRequest();
@@ -31,6 +32,6 @@ module.exports = {
         });
       });
     });
-  },
+  }
 };
 

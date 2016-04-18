@@ -46,7 +46,7 @@ module.exports.routes = {
   
   'DELETE /account': 'AccountController.destroy',
   
-  'POST /transaction': 'TransactionController.create',
+  'POST /transaction': 'TransactionController.create'
   
   /***************************************************************************
   *                                                                          *

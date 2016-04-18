@@ -1,3 +1,5 @@
+/* eslint no-unused-vars: "off" */
+
 function handleError(xhr, status, err) {
   console.log(err);
 }
@@ -9,7 +11,7 @@ function login(email, password, cb) {
     data: {
       email: email,
       password: password
-    },
+    }
   }).always(cb);
 }
 
@@ -18,10 +20,10 @@ function getAccounts(ownerId, cb) {
     url: '/account',
     type: 'get',
     data: {
-      ownerId: ownerId,
+      ownerId: ownerId
     },
     success: cb,
-    error: handleError,
+    error: handleError
   });
 }
 
@@ -31,10 +33,10 @@ function deleteAccount(ownerId, accountName, cb) {
     type: 'delete',
     data: {
       name: accountName,
-      ownerId: ownerId,
+      ownerId: ownerId
     },
     success: cb,
-    error: handleError,
+    error: handleError
   });
 }
 
@@ -45,17 +47,17 @@ function addAccount(ownerId, accountName, balance, cb) {
     data: {
       name: accountName,
       ownerId: ownerId,
-      balance: balance,
+      balance: balance
     },
     success: cb,
-    error: handleError,
+    error: handleError
   });
 }
 
 function logout(cb) {
   $.ajax({
     url: '/logout',
-    type: 'post',
+    type: 'post'
   }).always(cb);
 }
 
@@ -68,7 +70,7 @@ function getTransactions(ownerId, accountName, cb) {
       accountName: accountName
     },
     success: cb,
-    error: handleError,
+    error: handleError
   });
 }
 
@@ -85,7 +87,7 @@ function addTransaction(ownerId, accountName, amount, merchant, category, date, 
       date: date
     },
     success: cb,
-    error: handleError,
+    error: handleError
   });
 }
 
@@ -100,6 +102,6 @@ function getAccount(ownerId, accountName, cb) {
     success: function(data) {
       cb(data[0]);
     },
-    error: handleError,
+    error: handleError
   });
 }

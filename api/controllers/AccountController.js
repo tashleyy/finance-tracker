@@ -4,6 +4,7 @@
  * @description :: Server-side logic for managing accounts
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
+/* eslint no-unused-vars: "off" */
 
 module.exports = {
   create: function(req, res) {
@@ -45,6 +46,6 @@ module.exports = {
         return res.ok(accounts);
       });
     });
-  },
+  }
 };
 

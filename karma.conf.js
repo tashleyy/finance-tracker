@@ -5,7 +5,7 @@ module.exports = function(config) {
     files: [
       'https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js',
       'assets/js/dbquery.js',
-      'assets/DBQuerySpec.js',
+      'assets/DBQuerySpec.js'
     ],
     browsers: ['Firefox'],
     singleRun: true,
@@ -17,7 +17,7 @@ module.exports = function(config) {
       '/login': 'http://localhost:1337/login',
       '/account': 'http://localhost:1337/account',
       '/transaction': 'http://localhost:1337/transaction',
-      '/logout': 'http://localhost:1337/logout',
-    },
+      '/logout': 'http://localhost:1337/logout'
+    }
   });
 };

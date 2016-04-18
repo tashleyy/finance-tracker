@@ -10,15 +10,15 @@ module.exports = {
   attributes: {
     name: {
       type: 'string',
-      required: true,
+      required: true
     },
     ownerId: {
       type: 'string',
-      required: true,
+      required: true
     },
     balance: {
       type: 'float',
-      required: true,
+      required: true
     }
   }
 };
