@@ -5,9 +5,13 @@ Feature: Accounts List
     Scenario: Add Account
         Given I am on the dashboard page
         When I press the button Add Account
-        When I fill #inputAccountName selector with TestAdd
         When I press the button Submit
         Then I should have at least 1 of #accountsList tbody tr selector
+    Scenario: Uploading a valid file
+        Given I am on the dashboard page
+        When I press the button Add Transaction 
+        When I upload a file with valid data
+        Then I should be on the dashboard page
     Scenario: Delete Account
         Given I am on the dashboard page
         When I press the button Delete Account
