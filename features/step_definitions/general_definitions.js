@@ -1,7 +1,7 @@
 /* eslint new-cap: "off" */
 module.exports = function() {
   this.Then(/^I should have (\d+) of (.*) selector$/, function(num, selector, cb) {
-    this.assertElements(selector, 1);
+    this.assertElements(selector, num);
     cb();
   });
 
@@ -21,6 +21,11 @@ module.exports = function() {
 
   this.Then(/^I should have at least (\d+) of (.*) selector$/, function(num, selector, cb) {
     this.assertElementsAtLeast(selector, num);
+    cb();
+  });
+
+  this.When(/^I upload a file called (.*) to (.*) selector$/, function(filename, selector, cb) {
+    this.attachFile(selector, filename);
     cb();
   });
 };
