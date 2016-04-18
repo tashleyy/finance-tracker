@@ -5,7 +5,7 @@ Feature: Accounts List
     Scenario: Add Account
         Given I am on the dashboard page
         When I press the button Add Account
-        When I upload a file called ../assets/account.csv to #addAccountInputFile selector
+        When I upload a file called /home/team-c/finance-tracker/assets/account.csv to #addAccountInputFile selector
         When I press the button Submit
         Then I should have at least 4 of #accountsList tbody tr selector
         Then I should be on the dashboard page
