@@ -30,6 +30,12 @@ module.exports = function() {
   });
 
   this.When(/^I check the checkbox (.*)$/, function(checkbox, cb) {
-    this.check(checkbox, cb);
+    this.check(checkbox);
+    cb();
+  });
+
+  this.When(/^I uncheck the checkbox (.*)$/, function(checkbox, cb) {
+    this.uncheck(checkbox);
+    cb();
   });
 };

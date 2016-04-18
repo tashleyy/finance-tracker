@@ -36,9 +36,13 @@ function World() {
     this.browser.attach(selector, filename);
   };
 
-  this.check = function(checkbox, cb) {
-    this.browser.check(checkbox, cb);
+  this.check = function(checkbox) {
+    this.browser.check(checkbox);
   };
+
+  this.uncheck = function(checkbox) {
+    this.browser.uncheck(checkbox);
+  }
 }
 
 module.exports = function() {
