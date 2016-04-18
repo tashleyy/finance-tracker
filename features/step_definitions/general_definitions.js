@@ -28,4 +28,8 @@ module.exports = function() {
     this.attachFile(selector, filename);
     cb();
   });
+
+  this.When(/^I check the checkbox (.*)$/, function(checkbox, cb) {
+    this.check(checkbox, cb);
+  });
 };

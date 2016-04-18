@@ -35,6 +35,10 @@ function World() {
   this.attachFile = function(selector, filename) {
     this.browser.attach(selector, filename);
   };
+
+  this.check = function(checkbox, cb) {
+    this.browser.check(checkbox, cb);
+  };
 }
 
 module.exports = function() {

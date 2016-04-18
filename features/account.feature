@@ -1,7 +1,7 @@
 Feature: Accounts List
     In order to use the site
     As a user
-    I need to be able to view my accounts
+    I need to be able to view, add, and remove my accounts
     Scenario: Add Account
         Given I am on the dashboard page
         When I press the button Add Account
