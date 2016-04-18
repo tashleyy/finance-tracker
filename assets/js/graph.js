@@ -59,44 +59,13 @@ function setupGraph() {
 }
 
 function graphAccount(ownerId, accountName) {
-  getTransactions(ownerId, accountName, function(data) {
-    data.sort(function(a, b) {
-      if (a.date > b.date) { return -1; }
-      if (a.date < b.date) { return 1; }
-      return 0;
-    });
-    getAccount(ownerId, accountName, function(account) {
-      var transformedData = {};
-      var todayDate = new Date().toISOString();
-      transformedData[todayDate] = account.balance;
-      if (data.length > 0) { transformedData[data[0].date] = account.balance; }
-      data.forEach(function(element, index, array) {
-        var dayBefore = new Date(element.date);
-        dayBefore.setDate(dayBefore.getDate() - 1);
-        dayBefore = dayBefore.toISOString();
-        var prevTransactionDate = dayBefore;
-        if (index + 1 < array.length && array[index].date !== array[index + 1].date) { prevTransactionDate = array[index + 1].date; }
-        if (transformedData[dayBefore]) {
-          transformedData[dayBefore] -= element.amount;
-        } else {
-          transformedData[dayBefore] = transformedData[element.date] - element.amount;
-        }
-        transformedData[prevTransactionDate] = transformedData[dayBefore];
-      });
-      var finalData = [];
-      for (var prop in transformedData) {
-        finalData.push({
-          date: parseTime.parse(prop),
-          balance: transformedData[prop]
-        });
-      }
-      var newLine = svg.append('path')
-        .datum(finalData)
-        .attr('class', 'line')
-        .attr('id', accountName + 'Line')
-        .attr('clip-path', 'url(#clip)')
-        .attr('d', line);
-    });
+  getAccountGraphData(ownerId, accountName, function(finalData) {
+    var newLine = svg.append('path')
+      .datum(finalData)
+      .attr('class', 'line')
+      .attr('id', accountName + 'Line')
+      .attr('clip-path', 'url(#clip)')
+      .attr('d', line);
   });
 }
 
