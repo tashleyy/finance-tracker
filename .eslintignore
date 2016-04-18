@@ -8,3 +8,4 @@ assets/lib/*
 assets/js/dependencies/sails.io.js
 Procfile
 package.json
+api/responses/*

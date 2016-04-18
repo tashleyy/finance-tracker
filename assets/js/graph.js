@@ -47,10 +47,10 @@ function setupGraph() {
     .append('rect')
     .attr('width', width)
     .attr('height', height);
-    
+
   var today = new Date();
   var past = new Date();
-  past.setMonth(past.getMonth()-6);
+  past.setMonth(past.getMonth() - 6);
   x.domain([past, today]);
   y.domain([0, 500]);
   svg.select('.xAxis').call(xAxis);
@@ -61,23 +61,26 @@ function setupGraph() {
 function graphAccount(ownerId, accountName) {
   getTransactions(ownerId, accountName, function(data) {
     data.sort(function(a, b) {
-      if (a.date > b.date) return -1;
-      if (a.date < b.date) return 1;
+      if (a.date > b.date) { return -1; }
+      if (a.date < b.date) { return 1; }
       return 0;
     });
     getAccount(ownerId, accountName, function(account) {
       var transformedData = {};
       var todayDate = new Date().toISOString();
       transformedData[todayDate] = account.balance;
-      if (data.length > 0) transformedData[data[0].date] = account.balance;
+      if (data.length > 0) { transformedData[data[0].date] = account.balance; }
       data.forEach(function(element, index, array) {
         var dayBefore = new Date(element.date);
-        dayBefore.setDate(dayBefore.getDate()-1);
+        dayBefore.setDate(dayBefore.getDate() - 1);
         dayBefore = dayBefore.toISOString();
         var prevTransactionDate = dayBefore;
-        if (index+1 < array.length && array[index].date != array[index+1].date) prevTransactionDate = array[index+1].date;
-        if (transformedData[dayBefore]) transformedData[dayBefore] -= element.amount;
-        else transformedData[dayBefore] = transformedData[element.date] - element.amount;
+        if (index + 1 < array.length && array[index].date !== array[index + 1].date) { prevTransactionDate = array[index + 1].date; }
+        if (transformedData[dayBefore]) {
+          transformedData[dayBefore] -= element.amount;
+        } else {
+          transformedData[dayBefore] = transformedData[element.date] - element.amount;
+        }
         transformedData[prevTransactionDate] = transformedData[dayBefore];
       });
       var finalData = [];

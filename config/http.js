@@ -23,15 +23,15 @@ module.exports.http = {
 
   middleware: {
 
-    passportInit    : require('passport').initialize(),
-    passportSession : require('passport').session(),
+    passportInit: require('passport').initialize(),
+    passportSession: require('passport').session(),
 
     order: [
       'startRequestTimer',
       'cookieParser',
       'session',
-      'passportInit',     
-      'passportSession', 
+      'passportInit',
+      'passportSession',
       'myRequestLogger',
       'bodyParser',
       'handleBodyParserError',
@@ -82,7 +82,6 @@ module.exports.http = {
     //     console.log("Requested :: ", req.method, req.url);
     //     return next();
     // }
-
 
   /***************************************************************************
   *                                                                          *

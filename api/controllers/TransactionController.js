@@ -7,12 +7,12 @@
 /* eslint no-unused-vars: "off" */
 
 module.exports = {
-  create: function (req, res) {
+  create: function(req, res) {
     var params = req.params.all();
     if (!params.amount || !params.accountName || !params.merchant || !params.ownerId || !params.date) {
       return res.badRequest();
     }
-    Account.findOne({ name: params.accountName, ownerId: params.ownerId }).exec(function accountFound(err, account) {
+    Account.findOne({name: params.accountName, ownerId: params.ownerId}).exec(function accountFound(err, account) {
       if (err) {
         return res.serverError();
       }
@@ -28,7 +28,7 @@ module.exports = {
           if (err) {
             return res.serverError();
           }
-          return res.json(201, transaction); // 201 indicates successful creation          
+          return res.json(201, transaction); // 201 indicates successful creation
         });
       });
     });

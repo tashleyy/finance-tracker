@@ -49,10 +49,11 @@ process.chdir(__dirname);
       console.error('Your `.sailsrc` file(s) will be ignored.');
       console.error('To resolve this, run:');
       console.error('npm install rc --save');
-      rc = function () { return {}; };
+      rc = function() {
+        return {};
+      };
     }
   }
-
 
   // Start server
   sails.lift(rc('sails'));

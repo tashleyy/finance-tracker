@@ -65,7 +65,7 @@ module.exports.connections = {
     // password: 'password',
     // database: 'your_mongo_db_name_here'
   },
-  
+
   remoteServer: {
     adapter: 'sails-mongo',
     host: 'ds015780.mlab.com',
@@ -91,7 +91,6 @@ module.exports.connections = {
   //   password: 'YOUR_POSTGRES_PASSWORD',
   //   database: 'YOUR_POSTGRES_DB'
   // }
-
 
   /***************************************************************************
   *                                                                          *

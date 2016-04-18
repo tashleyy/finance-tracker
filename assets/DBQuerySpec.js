@@ -8,7 +8,7 @@ describe('DBQuery', function() {
       }
     });
   });
-  
+
   afterEach(function() {
     logout();
   });
@@ -21,13 +21,13 @@ describe('DBQuery', function() {
       done();
     });
   });
-  
+
   it('should be able to add Account', function(done) {
     getAccounts(ownerId, function(accounts) {
       // Test is only applicable if 'Checking' doesn't already exist
       var found = false;
       for (var i = 0; i < accounts.length; i++) {
-        if (accounts[i].name == 'Checking') {
+        if (accounts[i].name === 'Checking') {
           found = true;
           expect(found).toBeTruthy();
           done();
@@ -40,7 +40,7 @@ describe('DBQuery', function() {
             expect(moreAccounts).toContain(element);
           });
           for (var i = 0; i < moreAccounts.length; i++) {
-            if (moreAccounts[i].name == 'Checking') {
+            if (moreAccounts[i].name === 'Checking') {
               found = true;
               break;
             }

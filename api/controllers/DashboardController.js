@@ -10,7 +10,7 @@ module.exports = {
   /**
    * `DashboardController.render()`
    */
-  render: function (req, res) {
+  render: function(req, res) {
     return res.view('dashboard');
   }
 };
