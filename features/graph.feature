@@ -9,6 +9,10 @@ Feature: Graph Widget
         Then I should have 2 of .axis selector
         Then I should have 1 of .xAxis selector
         Then I should have 1 of .yAxis selector
+        Then I should have 3 of .line selector
+        Then I should have 1 of #totalNetWorthLine selector
+        Then I should have 1 of #totalAssetsLine selector
+        Then I should have 1 of #totalLiabilitiesLine selector
     Scenario: Graph Account
         Given I am on the dashboard page
         Given I have imported the accounts in file /home/team-c/finance-tracker/assets/account.csv
