@@ -12,6 +12,14 @@ module.exports = {
       minLength: 6,
       required: true
     },
+    loginAttempts: { 
+    	type: 'number',
+    	required: true;
+    	default: 0
+    },
+    lockUntil: {
+    	type: 'number'
+    },
     toJSON: function() {
       var obj = this.toObject();
       delete obj.password;
