@@ -95,6 +95,22 @@
               <div id="graph">
               </div>
             </div>
+            <div class="row">
+              <dl>
+                <dt><span style="background-color:#0099ff"></span></dt>
+                <dd>Total Net Worth</dd>
+                <dt><span style="background-color:#00cc66"></span></dt>
+                <dd>Total Assets</dd>
+                <dt><span style="background-color:#ff5050"></span></dt>
+                <dd>Total Liabilities</dd>
+              </dl>
+            </div>
+            <div class="row">
+              <form>
+                Start Date:<input id="startDateInput" type="date">
+                End Date:<input id="endDateInput" type="date">
+              </form>
+            </div>
           </div>
         </div>
 
@@ -211,7 +227,7 @@
             return 0;
           });
           for (var i = 0; i < data.length; i++) {
-            $('#accountsList tbody').append('<tr><td class="accountName">' + data[i].name + '</td><td><input class="accountCheckbox" type="checkbox" value="' + data[i].name + '" name="' + data[i].name + '"></td></tr>');
+            $('#accountsList tbody').append('<tr><td class="accountName" id="' + data[i].name + 'Account" style="color: ' + getRandomColor() + '">' + data[i].name + '</td><td><input class="accountCheckbox" type="checkbox" value="' + data[i].name + '" name="' + data[i].name + '"></td></tr>');
           }
           $('.accountCheckbox').change(function() {
             if (this.checked) {
@@ -236,6 +252,14 @@
               }
             });
           });
+          var today = new Date();
+          var past = new Date();
+          past.setMonth(past.getMonth() - 3);
+          $('#startDateInput').val(convertDate(past));
+          $('#endDateInput').val(convertDate(today));
+          $('#graphWidget input').change(function() {
+            updateDateRange($('#startDateInput').val(), $('#endDateInput').val());
+          });
         });
         var idleInterval = setInterval(timerIncrement, 60000);
         $(this).mousemove(function(e) {
@@ -252,7 +276,7 @@
             });
           }
         }
-        setupGraph();
+        setupGraph(userId);
       });
       $('#deleteAccountModal').on('show.bs.modal', function () {
         getAccounts(userId, function (data) {
@@ -273,7 +297,7 @@
             return 0;
           });
           for (var i = 0; i < data.length; i++) {
-            $('#accountsList tbody').append('<tr><td class="accountName">' + data[i].name + '</td><td><input class="accountCheckbox" type="checkbox" value="' + data[i].name + '" name="' + data[i].name + '"></td></tr>');
+            $('#accountsList tbody').append('<tr><td class="accountName" id="' + data[i].name + 'Account" style="color: ' + getRandomColor() + '">' + data[i].name + '</td><td><input class="accountCheckbox" type="checkbox" value="' + data[i].name + '" name="' + data[i].name + '"></td></tr>');
           }
           $('.accountCheckbox').change(function() {
             if (this.checked) {
@@ -317,7 +341,7 @@
                     $('#addAccountModal').modal('hide');
                     $('#accountsList tbody').html('');
                     for (var j = 0; j < data.length; j++) {
-                      $('#accountsList tbody').append('<tr><td class="accountName">' + data[j].name + '</td><td><input class="accountCheckbox" type="checkbox" value="' + data[j].name + '" name="' + data[j].name + '"></td></tr>');
+                      $('#accountsList tbody').append('<tr><td class="accountName" id="' + data[j].name + 'Account" style="color: ' + getRandomColor() + '">' + data[j].name + '</td><td><input class="accountCheckbox" type="checkbox" value="' + data[j].name + '" name="' + data[j].name + '"></td></tr>');
                     }
                     $('.accountCheckbox').change(function() {
                       if (this.checked) {
@@ -426,6 +450,34 @@
           }
         }
       });
+      
+      function getRandomColor() {
+        var letters = '0123456789ABCDEF'.split('');
+        var color = '#';
+        for (let i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
+      
+      function convertDate(date) {
+        var y = date.getYear() + 1900;
+        var m = date.getMonth() + 1;
+        var d = date.getDate();
+        var result = '';
+        result += y + '-';
+        if (m < 10) {
+          result += '0' + m + '-';
+        } else {
+          result += m + '-';
+        }
+        if (d < 10) {
+          result += '0' + d;
+        } else {
+          result += d;
+        }
+        return result;
+      }
     </script>
   </body>
 </html>
