@@ -211,7 +211,7 @@
             return 0;
           });
           for (var i = 0; i < data.length; i++) {
-            $('#accountsList tbody').append('<tr><td class="accountName">' + data[i].name + '</td><td><input class="accountCheckbox" type="checkbox" value="' + data[i].name + '" name="' + data[i].name + '"></td></tr>');
+            $('#accountsList tbody').append('<tr><td class="accountName" style="color: ' + getRandomColor() + '">' + data[i].name + '</td><td><input class="accountCheckbox" type="checkbox" value="' + data[i].name + '" name="' + data[i].name + '"></td></tr>');
           }
           $('.accountCheckbox').change(function() {
             if (this.checked) {
@@ -252,7 +252,7 @@
             });
           }
         }
-        setupGraph();
+        setupGraph(userId);
       });
       $('#deleteAccountModal').on('show.bs.modal', function () {
         getAccounts(userId, function (data) {
@@ -273,7 +273,7 @@
             return 0;
           });
           for (var i = 0; i < data.length; i++) {
-            $('#accountsList tbody').append('<tr><td class="accountName">' + data[i].name + '</td><td><input class="accountCheckbox" type="checkbox" value="' + data[i].name + '" name="' + data[i].name + '"></td></tr>');
+            $('#accountsList tbody').append('<tr><td class="accountName" style="color: ' + getRandomColor() + '">' + data[i].name + '</td><td><input class="accountCheckbox" type="checkbox" value="' + data[i].name + '" name="' + data[i].name + '"></td></tr>');
           }
           $('.accountCheckbox').change(function() {
             if (this.checked) {
@@ -317,7 +317,7 @@
                     $('#addAccountModal').modal('hide');
                     $('#accountsList tbody').html('');
                     for (var j = 0; j < data.length; j++) {
-                      $('#accountsList tbody').append('<tr><td class="accountName">' + data[j].name + '</td><td><input class="accountCheckbox" type="checkbox" value="' + data[j].name + '" name="' + data[j].name + '"></td></tr>');
+                      $('#accountsList tbody').append('<tr><td class="accountName" style="color: ' + getRandomColor() + '">' + data[j].name + '</td><td><input class="accountCheckbox" type="checkbox" value="' + data[j].name + '" name="' + data[j].name + '"></td></tr>');
                     }
                     $('.accountCheckbox').change(function() {
                       if (this.checked) {
@@ -426,6 +426,15 @@
           }
         }
       });
+      
+      function getRandomColor() {
+        var letters = '0123456789ABCDEF'.split('');
+        var color = '#';
+        for (let i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
     </script>
   </body>
 </html>
