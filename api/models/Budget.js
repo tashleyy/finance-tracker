@@ -1,5 +1,5 @@
 /**
- * Transaction.js
+ * Budget.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
@@ -8,12 +8,12 @@
 module.exports = {
 
   attributes: {
-    amount: {
-      type: 'float',
+    year: {
+      type: 'integer',
       required: true
     },
-    accountName: {
-      type: 'string',
+    month: {
+      type: 'integer',
       required: true
     },
     category: {
@@ -22,18 +22,13 @@ module.exports = {
       defaultsTo: 'Other',
       required: true
     },
-    merchant: {
-      type: 'string',
+    max: {
+      type: 'float',
       required: true
     },
     ownerId: {
       type: 'string',
       required: true
-    },
-    date: {
-      type: 'date',
-      required: true
     }
   }
 };
-
