@@ -7,6 +7,7 @@ var x = d3.time.scale().range([0, width]);
 var y = d3.scale.linear().range([height, 0]);
 var xAxis = d3.svg.axis().scale(x).orient('bottom');
 var yAxis = d3.svg.axis().scale(y).orient('left');
+xAxis.ticks(6);
 var svg;
 var parseTime = d3.time.format('%Y-%m-%dT%H:%M:%S.%LZ');
 var line = d3.svg.line()
@@ -52,7 +53,7 @@ function setupGraph(ownerId) {
 
   var today = new Date();
   var past = new Date();
-  past.setMonth(past.getMonth() - 6);
+  past.setMonth(past.getMonth() - 3);
   x.domain([past, today]);
   y.domain([-500, 500]);
   svg.select('.xAxis').call(xAxis);
@@ -84,24 +85,27 @@ function setupGraph(ownerId) {
         maxY = Number(totalNetWorthData[i].balance);
       }
     }
-    y.domain([minY, maxY]);
+    y.domain([minY - 10, maxY + 10]);
     svg.select('.yAxis').call(yAxis);
     var newLine = svg.append('path')
       .datum(totalAssetsData)
       .attr('class', 'line')
       .attr('id', 'totalAssetsLine')
+      .style('stroke', '#00cc66')
       .attr('clip-path', 'url(#clip)')
       .attr('d', line);
     var newLine2 = svg.append('path')
       .datum(totalLiabilitiesData)
       .attr('class', 'line')
       .attr('id', 'totalLiabilitiesLine')
+      .style('stroke', '#ff5050')
       .attr('clip-path', 'url(#clip)')
       .attr('d', line);
     var newLine3 = svg.append('path')
       .datum(totalNetWorthData)
       .attr('class', 'line')
       .attr('id', 'totalNetWorthLine')
+      .style('stroke', '#0099ff')
       .attr('clip-path', 'url(#clip)')
       .attr('d', line);
   });
@@ -117,11 +121,13 @@ function graphAccount(ownerId, accountName) {
         maxY = Number(finalData.balance);
       }
     }
-    y.domain([minY, maxY]);
+    y.domain([minY - 10, maxY + 10]);
     svg.select('.yAxis').call(yAxis);
+    var color = $('#' + accountName + 'Account').css('color');
     var newLine = svg.append('path')
       .datum(finalData)
       .attr('class', 'line')
+      .style('stroke', color)
       .attr('id', accountName + 'Line')
       .attr('clip-path', 'url(#clip)')
       .attr('d', line);
@@ -130,4 +136,12 @@ function graphAccount(ownerId, accountName) {
 
 function ungraphAccount(ownerId, accountName) {
   $('#' + accountName + 'Line').remove();
+}
+
+function updateDateRange(start, end) {
+  var startDate = new Date(start);
+  var endDate = new Date(end);
+  x.domain([startDate, endDate]);
+  svg.select('.xAxis').call(xAxis);
+  svg.selectAll('path.line').attr('d', line);
 }
