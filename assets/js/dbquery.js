@@ -229,3 +229,20 @@ function getAllAccountGraphData(ownerId, cb) {
     return (a.getYear() === b.getYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate());
   }
 }
+
+function getBudgets(ownerId, year, month, cb) {
+  var startDate = new Date(year, month - 1);
+  var endDate = new Date(year, month - 1);
+  endDate.setMonth(endDate.getMonth() + 1);
+  $.ajax({
+    url: '/budget',
+    type: 'get',
+    data: {
+      ownerId: ownerId,
+      startDate: startDate.toISOString(),
+      endDate: endDate.toISOString()
+    },
+    success: cb,
+    error: handleError
+  });
+}

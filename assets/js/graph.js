@@ -59,7 +59,45 @@ function setupGraph(ownerId) {
   svg.select('.xAxis').call(xAxis);
   svg.select('.yAxis').call(yAxis);
   svg.selectAll('path.line').attr('d', line);
+  graphTotals(ownerId);
+}
 
+function graphAccount(ownerId, accountName) {
+  getAccountGraphData(ownerId, accountName, function(finalData) {
+    for (let i = 0; i < finalData.length; i++) {
+      if (!minY || finalData.balance < minY) {
+        minY = Number(finalData.balance);
+      }
+      if (!maxY || finalData.balance > maxY) {
+        maxY = Number(finalData.balance);
+      }
+    }
+    y.domain([minY - 10, maxY + 10]);
+    svg.select('.yAxis').call(yAxis);
+    var color = $('#' + accountName + 'Account').css('color');
+    var newLine = svg.append('path')
+      .datum(finalData)
+      .attr('class', 'line')
+      .style('stroke', color)
+      .attr('id', accountName + 'Line')
+      .attr('clip-path', 'url(#clip)')
+      .attr('d', line);
+  });
+}
+
+function ungraphAccount(ownerId, accountName) {
+  $('#' + accountName + 'Line').remove();
+}
+
+function updateDateRange(start, end) {
+  var startDate = new Date(start);
+  var endDate = new Date(end);
+  x.domain([startDate, endDate]);
+  svg.select('.xAxis').call(xAxis);
+  svg.selectAll('path.line').attr('d', line);
+}
+
+function graphTotals(ownerId) {
   getAllAccountGraphData(ownerId, function(totalAssetsData, totalLiabilitiesData, totalNetWorthData) {
     for (let i = 0; i < totalAssetsData.length; i++) {
       if (!minY || totalAssetsData[i].balance < minY) {
@@ -109,39 +147,4 @@ function setupGraph(ownerId) {
       .attr('clip-path', 'url(#clip)')
       .attr('d', line);
   });
-}
-
-function graphAccount(ownerId, accountName) {
-  getAccountGraphData(ownerId, accountName, function(finalData) {
-    for (let i = 0; i < finalData.length; i++) {
-      if (!minY || finalData.balance < minY) {
-        minY = Number(finalData.balance);
-      }
-      if (!maxY || finalData.balance > maxY) {
-        maxY = Number(finalData.balance);
-      }
-    }
-    y.domain([minY - 10, maxY + 10]);
-    svg.select('.yAxis').call(yAxis);
-    var color = $('#' + accountName + 'Account').css('color');
-    var newLine = svg.append('path')
-      .datum(finalData)
-      .attr('class', 'line')
-      .style('stroke', color)
-      .attr('id', accountName + 'Line')
-      .attr('clip-path', 'url(#clip)')
-      .attr('d', line);
-  });
-}
-
-function ungraphAccount(ownerId, accountName) {
-  $('#' + accountName + 'Line').remove();
-}
-
-function updateDateRange(start, end) {
-  var startDate = new Date(start);
-  var endDate = new Date(end);
-  x.domain([startDate, endDate]);
-  svg.select('.xAxis').call(xAxis);
-  svg.selectAll('path.line').attr('d', line);
 }
