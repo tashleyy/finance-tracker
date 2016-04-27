@@ -17,4 +17,4 @@ Feature: Accounts List
     Scenario: Account List
         Given I am on the dashboard page
         Then I should have 1 of #accountsList selector
-        Then I should have Account NameVisibility text for #accountsList thead tr th selector
+        Then I should have Account NameGraphTransactions text for #accountsList thead tr th selector

@@ -182,7 +182,8 @@
                 <thead>
                   <tr>
                     <th>Account Name</th>
-                    <th>Visibility</th>
+                    <th>Graph</th>
+                    <th>Transactions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -265,6 +266,7 @@
       var idleTime = 0;
       var transactions = [];
       var sortTransactionsBy = 'date';
+      var selectedAccounts = [];
       
       $(document).ready(function () {
         userId = sessionStorage.getItem('_userId');
@@ -321,6 +323,20 @@
           displayAccounts(data);
           ungraphAccount(userId, accountName);
           graphTotals(userId);
+          transactions = transactions.filter(function(value) {
+            return value.accountName !== accountName;
+          });
+          $('#transactionsList tbody').html('');
+          for (var i = 0; i < transactions.length; i++) {
+            var date = new Date(transactions[i].date);
+            var stringDate = (1900 + date.getYear()) + '/' + (date.getMonth()+1) + '/' + (date.getDate()+1);
+            $('#transactionsList tbody').append('<tr><td>' + stringDate + '</td><td>' + transactions[i].amount + '</td><td>' + transactions[i].accountName + '</td><td>' + transactions[i].merchant + '</td><td>' + transactions[i].category + '</td></tr>');
+          }
+          selectedAccounts = selectedAccounts.filter(function(value) {
+            return value !== accountName;
+          });
+          var date = $('#budgetMonthInput').val();
+          updateBudgets(Number(date.substring(0, 4)), Number(date.substring(5, 7)));
           $('#deleteAccountModal').modal('hide');
         });
       });
@@ -375,6 +391,8 @@
                 addTransaction(userId, results.data[i].account, results.data[i].amount, results.data[i].merchant, results.data[i].category, results.data[i].date, function (data) {
                   if (i >= length-1) {
                     graphTotals(userId);
+                    var date = $('#budgetMonthInput').val();
+                    updateBudgets(Number(date.substring(0, 4)), Number(date.substring(5, 7)));
                     $('#addTransactionModal').modal('hide');
                   }
                 });
@@ -404,7 +422,7 @@
         } else if ($(this).html() == 'Amount') {
           sortTransactionsBy = 'amount';
         } else if ($(this).html() == 'Account') {
-          sortTransactionsBy = 'account';
+          sortTransactionsBy = 'accountName';
         } else if ($(this).html() == 'Merchant') {
           sortTransactionsBy = 'merchant';
         } else if ($(this).html() == 'Category') {
@@ -499,35 +517,57 @@
           return 0;
         });
         for (var i = 0; i < data.length; i++) {
+          var listRow = '<tr><td class="accountName" id="' + data[i].name + 'Account" style="color: ' + getRandomColor() + '">' + data[i].name + '</td><td><input class="graphCheckbox" type="checkbox" value="' + data[i].name + '" name="' + data[i].name + '"';
           if ($('#' + data[i].name + 'Line').length) {
-            $('#accountsList tbody').append('<tr><td class="accountName" id="' + data[i].name + 'Account" style="color: ' + getRandomColor() + '">' + data[i].name + '</td><td><input class="accountCheckbox" type="checkbox" value="' + data[i].name + '" name="' + data[i].name + '" checked></td></tr>');
-          } else {
-            $('#accountsList tbody').append('<tr><td class="accountName" id="' + data[i].name + 'Account" style="color: ' + getRandomColor() + '">' + data[i].name + '</td><td><input class="accountCheckbox" type="checkbox" value="' + data[i].name + '" name="' + data[i].name + '"></td></tr>');
+            listRow += ' checked';
           }
+          listRow += '></td><td><input class="transactionsCheckbox" type="checkbox" value="' + data[i].name + '"';
+          if (selectedAccounts.includes(data[i].name)) {
+            listRow += ' checked';
+          }
+          listRow += '></td></tr>';
+          $('#accountsList tbody').append(listRow);
         }
-        $('.accountCheckbox').change(function() {
+        $('.graphCheckbox').change(function() {
           if (this.checked) {
             graphAccount(userId, this.value);
           } else {
             ungraphAccount(userId, this.value);
           }
         });
-        $('.accountName').click(function () {
-          getTransactions(userId, $(this).html(), function(data) {
-            data.sort(function(a, b) {
-              if (a[sortTransactionsBy] < b[sortTransactionsBy]) return -1;
-              if (a[sortTransactionsBy] > b[sortTransactionsBy]) return 1;
-              return 0;
+        $('.transactionsCheckbox').change(function() {
+          var accountName = this.value;
+          if (this.checked) {
+            getTransactions(userId, accountName, function(data) {
+              Array.prototype.push.apply(transactions, data);
+              transactions.sort(function(a, b) {
+                if (a[sortTransactionsBy] < b[sortTransactionsBy]) return -1;
+                if (a[sortTransactionsBy] > b[sortTransactionsBy]) return 1;
+                return 0;
+              });
+              $('#transactionsList tbody').html('');
+              for (var i = 0; i < transactions.length; i++) {
+                var date = new Date(transactions[i].date);
+                var stringDate = (1900 + date.getYear()) + '/' + (date.getMonth()+1) + '/' + (date.getDate()+1);
+                $('#transactionsList tbody').append('<tr><td>' + stringDate + '</td><td>' + transactions[i].amount + '</td><td>' + transactions[i].accountName + '</td><td>' + transactions[i].merchant + '</td><td>' + transactions[i].category + '</td></tr>');
+              }
+              selectedAccounts.push(accountName);
             });
-            transactions = data;
+          } else {
+            transactions = transactions.filter(function(value) {
+              return value.accountName !== accountName;
+            });
             $('#transactionsList tbody').html('');
-            for (var i = 0; i < data.length; i++) {
-              var date = new Date(data[i].date);
+            for (var i = 0; i < transactions.length; i++) {
+              var date = new Date(transactions[i].date);
               var stringDate = (1900 + date.getYear()) + '/' + (date.getMonth()+1) + '/' + (date.getDate()+1);
-              $('#transactionsList tbody').append('<tr><td>' + stringDate + '</td><td>' + data[i].amount + '</td><td>' + data[i].accountName + '</td><td>' + data[i].merchant + '</td><td>' + data[i].category + '</td></tr>');
+              $('#transactionsList tbody').append('<tr><td>' + stringDate + '</td><td>' + transactions[i].amount + '</td><td>' + transactions[i].accountName + '</td><td>' + transactions[i].merchant + '</td><td>' + transactions[i].category + '</td></tr>');
             }
-          });
-        });        
+            selectedAccounts = selectedAccounts.filter(function(value) {
+              return value !== accountName;
+            });
+          }
+        });      
       }
     </script>
   </body>
