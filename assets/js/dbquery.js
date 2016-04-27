@@ -191,6 +191,20 @@ function getAllAccountGraphData(ownerId, cb) {
                   lastLiabilities[k] = allAccounts[k][counters[k]].balance;
                 }
                 counters[k]++;
+                if (finalTotalAssets.length && counters[k] === 1) {
+                  var oldDate = new Date(minDate);
+                  oldDate.setDate(oldDate.getDate() - 1);
+                  if (finalTotalAssets[finalTotalAssets.length - 1].date !== oldDate) {
+                    finalTotalAssets.push({
+                      date: oldDate,
+                      balance: finalTotalAssets[finalTotalAssets.length - 1].balance
+                    });
+                    finalTotalLiabilities.push({
+                      date: oldDate,
+                      balance: finalTotalLiabilities[finalTotalLiabilities.length - 1].balance
+                    });
+                  }
+                }
               }
               newAssets += lastAssets[k];
               newLiabilities += lastLiabilities[k];
