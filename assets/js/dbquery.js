@@ -166,34 +166,34 @@ function getAllAccountGraphData(ownerId, cb) {
         lastLiabilities.push(0);
         if (allAccounts.length && allAccounts.length === array.length) {
           var done = true;
-          for (let i = 0; i < allAccounts.length; i++) {
+          for (var i = 0; i < allAccounts.length; i++) {
             if (counters[i] < allAccounts[i].length) {
               done = false;
               break;
             }
           }
           while (!done) {
-            let minDate;
-            for (let i = 0; i < allAccounts.length; i++) {
-              if (counters[i] < allAccounts[i].length && (!minDate || allAccounts[i][counters[i]].date < minDate)) {
-                minDate = allAccounts[i][counters[i]].date;
+            var minDate;
+            for (var j = 0; j < allAccounts.length; j++) {
+              if (counters[j] < allAccounts[j].length && (!minDate || allAccounts[j][counters[j]].date < minDate)) {
+                minDate = allAccounts[j][counters[j]].date;
               }
             }
             var newAssets = 0;
             var newLiabilities = 0;
-            for (let i = 0; i < allAccounts.length; i++) {
-              if (counters[i] < allAccounts[i].length && dateEqual(allAccounts[i][counters[i]].date, minDate)) {
-                if (allAccounts[i][counters[i]].balance >= 0) {
-                  lastAssets[i] = allAccounts[i][counters[i]].balance;
-                  lastLiabilities[i] = 0;
+            for (var k = 0; k < allAccounts.length; k++) {
+              if (counters[k] < allAccounts[k].length && dateEqual(allAccounts[k][counters[k]].date, minDate)) {
+                if (allAccounts[k][counters[k]].balance >= 0) {
+                  lastAssets[k] = allAccounts[k][counters[k]].balance;
+                  lastLiabilities[k] = 0;
                 } else {
-                  lastAssets[i] = 0;
-                  lastLiabilities[i] = allAccounts[i][counters[i]].balance;
+                  lastAssets[k] = 0;
+                  lastLiabilities[k] = allAccounts[k][counters[k]].balance;
                 }
-                counters[i]++;
+                counters[k]++;
               }
-              newAssets += lastAssets[i];
-              newLiabilities += lastLiabilities[i];
+              newAssets += lastAssets[k];
+              newLiabilities += lastLiabilities[k];
             }
             finalTotalAssets.push({
               date: new Date(minDate),
@@ -204,17 +204,18 @@ function getAllAccountGraphData(ownerId, cb) {
               balance: newLiabilities
             });
             done = true;
-            for (let i = 0; i < allAccounts.length; i++) {
-              if (counters[i] < allAccounts[i].length) {
+            for (var l = 0; l < allAccounts.length; l++) {
+              if (counters[l] < allAccounts[l].length) {
                 done = false;
                 break;
               }
             }
+            minDate = undefined;
           }
-          for (let i = 0; i < finalTotalAssets.length; i++) {
+          for (var m = 0; m < finalTotalAssets.length; m++) {
             finalTotalNetWorth.push({
-              date: new Date(finalTotalAssets[i].date),
-              balance: Number(finalTotalAssets[i].balance) + Number(finalTotalLiabilities[i].balance)
+              date: new Date(finalTotalAssets[m].date),
+              balance: Number(finalTotalAssets[m].balance) + Number(finalTotalLiabilities[m].balance)
             });
           }
           cb(finalTotalAssets, finalTotalLiabilities, finalTotalNetWorth);

@@ -192,15 +192,48 @@
           </div><!-- /.widget -->
 
           <!-- Monthly Budgets -->
-          <div class="widget">
+          <div class="widget" id="budgetsWidget">
             <div class="row">
               <h3>Monthly Budgets</h3>
             </div>
             <div class="row">
-              <form>
-                <input id="budgetMonthInput" type="month">
-              </form>
-            </div>
+              <input id="budgetMonthInput" type="month" style="width:55%; margin-right: 0px">
+              <button type="button" id="budgetEditModalButton" class="btn btn-md" data-toggle="modal" data-target="#budgetEditModal">
+                Edit Budget
+              </button>
+              <div class="modal fade" id="budgetEditModal" tabindex="-1" role="dialog" aria-labelledby="budgetEditModalLabel" style="display: none;">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="budgetEditModalLabel">Edit budget</h4>
+                    </div>
+                    <div class="modal-body">
+                      <form>
+                        <div class="form-group">
+                          <label for="budgetEditSelect">Category</label>
+                          <select id="budgetEditSelect" class="form-control">
+                            <option value="groceries">Groceries</option> 
+                            <option value="dining">Dining</option>
+                            <option value="entertainment">Entertainment</option>
+                            <option value="utilities">Utilities</option>
+                            <option value="other">Other</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label for="budgetEditText">Budget Amount</label>
+                          <input class="form-control" id="budgetEditText" placeholder="Budget Amount">
+                        </div>
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn" data-dismiss="modal">Close</button>
+                      <button type="button" id="budgetEditButton" class="btn">Submit</button>
+                    </div>
+                  </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+              </div><!-- /.modal -->
+            </div><!-- /.row -->
             <div class="row">
               <p id="groceriesText">Groceries</p>
               <div id="groceriesProgress" class="progress"></div>
@@ -480,7 +513,7 @@
       function getRandomColor() {
         var letters = '0123456789ABCDEF'.split('');
         var color = '#';
-        for (let i = 0; i < 6; i++) {
+        for (var i = 0; i < 6; i++) {
           color += letters[Math.floor(Math.random() * 16)];
         }
         return color;
@@ -525,12 +558,15 @@
               $('#' + prop + 'Progress').append('<div class="progress-bar progress-bar-warning" style="width: ' + data[prop].second/maxValue*100 + '%" style="border-right: 2px solid black;">');
             }
           }
-          
+
           function capitalizeFirstLetter(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
           }
         });
       }
+      $('#budgetEditModal').on('show.bs.modal', function () {
+        $('#budgetEditModalLabel').html('Edit budget for ' + $('#budgetMonthInput').val());
+      });
     </script>
   </body>
 </html>

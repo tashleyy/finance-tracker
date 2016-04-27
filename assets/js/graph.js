@@ -64,7 +64,7 @@ function setupGraph(ownerId) {
 
 function graphAccount(ownerId, accountName) {
   getAccountGraphData(ownerId, accountName, function(finalData) {
-    for (let i = 0; i < finalData.length; i++) {
+    for (var i = 0; i < finalData.length; i++) {
       if (!minY || finalData.balance < minY) {
         minY = Number(finalData.balance);
       }
@@ -99,7 +99,7 @@ function updateDateRange(start, end) {
 
 function graphTotals(ownerId) {
   getAllAccountGraphData(ownerId, function(totalAssetsData, totalLiabilitiesData, totalNetWorthData) {
-    for (let i = 0; i < totalAssetsData.length; i++) {
+    for (var i = 0; i < totalAssetsData.length; i++) {
       if (!minY || totalAssetsData[i].balance < minY) {
         minY = Number(totalAssetsData[i].balance);
       }
@@ -107,20 +107,20 @@ function graphTotals(ownerId) {
         maxY = Number(totalAssetsData[i].balance);
       }
     }
-    for (let i = 0; i < totalLiabilitiesData.length; i++) {
-      if (!minY || totalLiabilitiesData[i].balance < minY) {
-        minY = Number(totalLiabilitiesData[i].balance);
+    for (var j = 0; j < totalLiabilitiesData.length; j++) {
+      if (!minY || totalLiabilitiesData[j].balance < minY) {
+        minY = Number(totalLiabilitiesData[j].balance);
       }
-      if (!maxY || totalLiabilitiesData[i].balance > maxY) {
-        maxY = Number(totalLiabilitiesData[i].balance);
+      if (!maxY || totalLiabilitiesData[j].balance > maxY) {
+        maxY = Number(totalLiabilitiesData[j].balance);
       }
     }
-    for (let i = 0; i < totalNetWorthData.length; i++) {
-      if (!minY || totalNetWorthData[i].balance < minY) {
-        minY = Number(totalNetWorthData[i].balance);
+    for (var k = 0; k < totalNetWorthData.length; k++) {
+      if (!minY || totalNetWorthData[k].balance < minY) {
+        minY = Number(totalNetWorthData[k].balance);
       }
-      if (!maxY || totalNetWorthData[i].balance > maxY) {
-        maxY = Number(totalNetWorthData[i].balance);
+      if (!maxY || totalNetWorthData[k].balance > maxY) {
+        maxY = Number(totalNetWorthData[k].balance);
       }
     }
     y.domain([minY - 10, maxY + 10]);
