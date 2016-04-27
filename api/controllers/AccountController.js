@@ -39,11 +39,16 @@ module.exports = {
       if (err) {
         return res.serverError();
       }
-      Account.find({ownerId: params.ownerId}).exec(function accountsFound(err, accounts) {
+      Transaction.destroy({ownerId: params.ownerId, accountName: params.name}).exec(function(err) {
         if (err) {
           return res.serverError();
         }
-        return res.ok(accounts);
+        Account.find({ownerId: params.ownerId}).exec(function accountsFound(err, accounts) {
+          if (err) {
+            return res.serverError();
+          }
+          return res.ok(accounts);
+        });
       });
     });
   }

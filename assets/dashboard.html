@@ -298,6 +298,10 @@
         var today = new Date();
         $('#budgetMonthInput').val(convertDate(today).substring(0, 7));
         updateBudgets(today.getYear()+1900, today.getMonth()+1);
+        $('#budgetMonthInput').change(function() {
+          var date = $('#budgetMonthInput').val();
+          updateBudgets(Number(date.substring(0, 4)), Number(date.substring(5, 7)));
+        });
       });
       $('#deleteAccountModal').on('show.bs.modal', function () {
         getAccounts(userId, function (data) {
@@ -320,6 +324,7 @@
           for (var i = 0; i < data.length; i++) {
             $('#accountsList tbody').append('<tr><td class="accountName" id="' + data[i].name + 'Account" style="color: ' + getRandomColor() + '">' + data[i].name + '</td><td><input class="accountCheckbox" type="checkbox" value="' + data[i].name + '" name="' + data[i].name + '"></td></tr>');
           }
+          ungraphAccount(userId, accountName);
           $('.accountCheckbox').change(function() {
             if (this.checked) {
               graphAccount(userId, this.value);
