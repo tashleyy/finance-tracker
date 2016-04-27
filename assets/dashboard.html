@@ -522,7 +522,7 @@
             listRow += ' checked';
           }
           listRow += '></td><td><input class="transactionsCheckbox" type="checkbox" value="' + data[i].name + '"';
-          if (selectedAccounts.includes(data[i].name)) {
+          if (selectedAccounts.indexOf(data[i].name) >= 0) {
             listRow += ' checked';
           }
           listRow += '></td></tr>';
