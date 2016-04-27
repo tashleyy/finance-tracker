@@ -65,11 +65,11 @@ function setupGraph(ownerId) {
 function graphAccount(ownerId, accountName) {
   getAccountGraphData(ownerId, accountName, function(finalData) {
     for (var i = 0; i < finalData.length; i++) {
-      if (!minY || finalData.balance < minY) {
-        minY = Number(finalData.balance);
+      if (!minY || finalData[i].balance < minY) {
+        minY = Number(finalData[i].balance);
       }
-      if (!maxY || finalData.balance > maxY) {
-        maxY = Number(finalData.balance);
+      if (!maxY || finalData[i].balance > maxY) {
+        maxY = Number(finalData[i].balance);
       }
     }
     y.domain([minY - 10, maxY + 10]);
@@ -125,6 +125,9 @@ function graphTotals(ownerId) {
     }
     y.domain([minY - 10, maxY + 10]);
     svg.select('.yAxis').call(yAxis);
+    ungraphAccount(ownerId, 'totalAssets');
+    ungraphAccount(ownerId, 'totalLiabilities');
+    ungraphAccount(ownerId, 'totalNetWorth');
     var newLine = svg.append('path')
       .datum(totalAssetsData)
       .attr('class', 'line')
