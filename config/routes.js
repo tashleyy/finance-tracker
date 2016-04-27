@@ -48,7 +48,9 @@ module.exports.routes = {
 
   'POST /transaction': 'TransactionController.create',
 
-  'GET /budget': 'BudgetController.find'
+  'GET /budget': 'BudgetController.find',
+
+  'POST /budget': 'BudgetController.update'
 
   /***************************************************************************
   *                                                                          *

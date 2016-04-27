@@ -247,3 +247,17 @@ function getBudgets(ownerId, year, month, cb) {
     error: handleError
   });
 }
+
+function setBudget(ownerId, category, max, cb) {
+  $.ajax({
+    url: '/budget',
+    type: 'post',
+    data: {
+      ownerId: ownerId,
+      category: category,
+      max: max
+    },
+    success: cb,
+    error: handleError
+  });
+}

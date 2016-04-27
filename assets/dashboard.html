@@ -213,11 +213,11 @@
                         <div class="form-group">
                           <label for="budgetEditSelect">Category</label>
                           <select id="budgetEditSelect" class="form-control">
-                            <option value="groceries">Groceries</option> 
-                            <option value="dining">Dining</option>
-                            <option value="entertainment">Entertainment</option>
-                            <option value="utilities">Utilities</option>
-                            <option value="other">Other</option>
+                            <option value="Groceries">Groceries</option> 
+                            <option value="Dining">Dining</option>
+                            <option value="Entertainment">Entertainment</option>
+                            <option value="Utilities">Utilities</option>
+                            <option value="Other">Other</option>
                           </select>
                         </div>
                         <div class="form-group">
@@ -549,8 +549,9 @@
             $('#' + prop + 'Text').html(capitalizeFirstLetter(prop) + ' ($' + data[prop].first + '/$' + data[prop].second + ')');
             $('#' + prop + 'Progress').html('');
             if (data[prop].first < data[prop].second) {
-              $('#' + prop + 'Progress').append('<div class="progress-bar progress-bar-success" style="width: ' + data[prop].first/maxValue*100 + '%">');
-              $('#' + prop + 'Progress').append('<div class="progress-bar budget-bar" style="width: ' + (data[prop].second-data[prop].first)/maxValue*100 + '%; border-right: 2px solid black;">');
+              var first = data[prop].first >= 0 ? data[prop].first : 0;
+              $('#' + prop + 'Progress').append('<div class="progress-bar progress-bar-success" style="width: ' + first/maxValue*100 + '%">');
+              $('#' + prop + 'Progress').append('<div class="progress-bar budget-bar" style="width: ' + (data[prop].second-first)/maxValue*100 + '%; border-right: 2px solid black;">');
             } else if (data[prop].first > data[prop].second) {
               $('#' + prop + 'Progress').append('<div class="progress-bar progress-bar-danger" style="width: ' + data[prop].second/maxValue*100 + '%" style="border-right: 2px solid black;">');
               $('#' + prop + 'Progress').append('<div class="progress-bar progress-bar-danger" style="width: ' + (data[prop].first-data[prop].second)/maxValue*100 + '%; border-left: 2px solid black;">');
@@ -564,8 +565,14 @@
           }
         });
       }
-      $('#budgetEditModal').on('show.bs.modal', function () {
-        $('#budgetEditModalLabel').html('Edit budget for ' + $('#budgetMonthInput').val());
+      $('#budgetEditButton').click(function () {
+        var category = $('#budgetEditSelect').val();
+        var amount = $('#budgetEditText').val();
+        setBudget(userId, category, Number(amount), function (data) {
+          var date = $('#budgetMonthInput').val();
+          updateBudgets(Number(date.substring(0, 4)), Number(date.substring(5, 7)));
+          $('#budgetEditModal').modal('hide');
+        });
       });
     </script>
   </body>
