@@ -19,7 +19,8 @@ module.exports = function(config) {
       '/login': 'http://localhost:1337/login',
       '/account': 'http://localhost:1337/account',
       '/transaction': 'http://localhost:1337/transaction',
-      '/logout': 'http://localhost:1337/logout'
+      '/logout': 'http://localhost:1337/logout',
+      '/budget': 'http://localhost:1337/budget'
     }
   });
 };

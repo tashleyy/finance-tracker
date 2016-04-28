@@ -1,6 +1,5 @@
 /* eslint no-unused-vars: "off" */
 
-/* istanbul ignore next */
 function handleError(xhr, status, err) {
   console.log(err);
 }

@@ -134,7 +134,7 @@ module.exports = {
       }
       var budget = budgets[0];
       if (budget) {
-        return res.ok();
+        return res.ok(budget);
       }
       Budget.create({
         ownerId: params.ownerId,

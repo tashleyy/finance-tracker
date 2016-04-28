@@ -153,10 +153,54 @@ describe('DBQuery', function() {
     });
   });
 
-  it('should detect false information', function(done) {
-    getAccounts('wrongownerid', function() {
+  it('should handle bad requests', function(done) {
+    addTransaction(ownerId, 'Checking', '-21.21', 'testmerch', 'badcategory', '2016-02-14', function() {
       expect(true).toBeFalsy();
     });
     done();
+  });
+
+  it('should be able to get all Account graph data', function(done) {
+    getAllAccountGraphData(ownerId, function(totalAssets, totalLiabilities, totalNetWorth) {
+      expect(totalAssets).toBeDefined();
+      expect(totalAssets).toEqual(jasmine.any(Array));
+      expect((new Set(totalAssets)).size).toEqual(totalAssets.length);
+      expect(totalLiabilities).toBeDefined();
+      expect(totalLiabilities).toEqual(jasmine.any(Array));
+      expect((new Set(totalLiabilities)).size).toEqual(totalLiabilities.length);
+      expect(totalNetWorth).toBeDefined();
+      expect(totalNetWorth).toEqual(jasmine.any(Array));
+      expect((new Set(totalNetWorth)).size).toEqual(totalNetWorth.length);
+      done();
+    });
+  });
+
+  it('should be able to get Budgets', function(done) {
+    getBudgets(ownerId, 2016, 4, function(data) {
+      expect(data.groceries.first).toBeDefined();
+      expect(data.groceries.second).toBeDefined();
+      expect(data.dining.first).toBeDefined();
+      expect(data.dining.second).toBeDefined();
+      expect(data.entertainment.first).toBeDefined();
+      expect(data.entertainment.second).toBeDefined();
+      expect(data.utilities.first).toBeDefined();
+      expect(data.utilities.second).toBeDefined();
+      expect(data.other.first).toBeDefined();
+      expect(data.other.second).toBeDefined();
+      done();
+    });
+  });
+
+  it('should be able to set Budget', function(done) {
+    setBudget(ownerId, 'Groceries', 500, function(data) {
+      expect(data).toBeDefined();
+      var date = new Date();
+      expect(data.year).toEqual(date.getYear() + 1900);
+      expect(data.month).toEqual(date.getMonth() + 1);
+      expect(data.category).toEqual('Groceries');
+      expect(data.max).toEqual(500);
+      expect(data.ownerId).toEqual(ownerId);
+      done();
+    });
   });
 });
