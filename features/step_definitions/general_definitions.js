@@ -38,4 +38,9 @@ module.exports = function() {
     this.uncheck(checkbox);
     cb();
   });
+
+  this.When(/^I select the (.*) option of (.*)$/, function(option, select, cb) {
+    this.select(select, option);
+    cb();
+  });
 };

@@ -43,6 +43,10 @@ function World() {
   this.uncheck = function(checkbox) {
     this.browser.uncheck(checkbox);
   }
+
+  this.select = function(select, option) {
+    this.browser.select(select, option);
+  }
 }
 
 module.exports = function() {
